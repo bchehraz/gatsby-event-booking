@@ -10,4 +10,4 @@
 
 
 
-Try it out and learn more <a href="https://bchehraz.github.io/gatsby-event-booking/">HERE</a>
+Demo it and learn more <a href="https://bchehraz.github.io/gatsby-event-booking/">HERE</a>
