@@ -16,7 +16,7 @@ class Login extends React.Component {
     super(props);
 
     this.state = {
-      username: ``,
+      email: ``,
       password: ``,
       signUp: props.signUp,
       error: null,
