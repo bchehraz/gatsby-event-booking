@@ -15,7 +15,7 @@ const Header = () => (
                 styles[`header__link--home`]
               }`}
             >
-              Events App
+              {`events-app`}
             </Link>
           </h1>
           <nav role="main" className={styles[`header__nav`]}>
