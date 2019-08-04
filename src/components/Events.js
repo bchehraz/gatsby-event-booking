@@ -5,6 +5,7 @@ import View from './View';
 import Modal from './Modal';
 import BackDrop from './BackDrop';
 import AuthContext from '../context/auth-context';
+import EventsList from './Events/EventsList/';
 
 const CreateEventContainer = styled.div`
   border: 1px solid black;
@@ -12,22 +13,12 @@ const CreateEventContainer = styled.div`
   padding: 1rem;
 `;
 
-const EventsList = styled.ul`
-  width: 40rem;
-  max-width: 90%;
-  margin: 2rem auto;
-  list-style: none;
-  padding: 0;
-`;
-
-const EventsListItem = styled.li`
-  margin: 1rem 0;
-  padding: 1rem;
-  border: 1px solid #663399;
-`;
-
 class Events extends React.Component {
   state = {
+    title: '',
+    description: '',
+    price: 0.0,
+    date: '',
     creating: false,
     events: [],
   }
@@ -36,10 +27,12 @@ class Events extends React.Component {
 
   constructor(props) {
     super(props);
-    this.titleRef = React.createRef();
-    this.priceRef = React.createRef();
-    this.dateRef = React.createRef();
-    this.descriptionRef = React.createRef();
+    // this.titleRef = React.createRef();
+    // this.priceRef = React.createRef();
+    // this.dateRef = React.createRef();
+    // this.descriptionRef = React.createRef();
+
+    this.handleUpdate = this.handleUpdate.bind(this);
   }
 
   componentDidMount() {
@@ -47,19 +40,21 @@ class Events extends React.Component {
   }
 
   startCreateEventHandler = () => {
-    this.setState({ creating: true });
+    this.setState({ ...this.state, creating: true });
   }
 
   onCancelCreateEvent = () => {
-    this.setState({ creating: false });
+    this.setState({ ...this.state, creating: false });
   }
 
   onConfirmCreateEvent = () => {
     this.setState({ creating: false });
-    const title = this.titleRef.current.value;
-    const price = +this.priceRef.current.value;
-    const date = this.dateRef.current.value;
-    const description = this.descriptionRef.current.value;
+    // const title = this.titleRef.current.value;
+    // const price = +this.priceRef.current.value;
+    // const date = this.dateRef.current.value;
+    // const description = this.descriptionRef.current.value;
+    const { title, date, description } = this.state;
+    const price = +this.state.price;
 
     // if (!title || !price || !data || )
     if (title.trim().length === 0 ||
@@ -175,63 +170,70 @@ class Events extends React.Component {
     });
   }
 
+  handleUpdate(event) {
+    this.setState({
+      [event.target.name]: event.target.value,
+    });
+  }
+
   render() {
-    const eventList = this.state.events.map(event => {
-      return <EventsListItem key={event._id}>{event.title}</EventsListItem>
-    })
     return (
       <View title="Events">
-        <CreateEventContainer>
-          {this.state.creating && <BackDrop />}
-          {this.state.creating &&
-            <Modal
-              title="Add Event"
-              canCancel
-              canConfirm
-              onCancel={this.onCancelCreateEvent}
-              onConfirm={this.onConfirmCreateEvent}
-            >
-            <form className={formStyles.form}>
-              <label className={formStyles[`form__label`]}>
-                Title
-                <input
-                  className={formStyles[`form__input`]}
-                  type="text"
-                  ref={this.titleRef}
-                  //onChange={handleUpdate}
-                />
-              </label>
-              <label className={formStyles[`form__label`]}>
-                Price
-                <input
-                  className={formStyles[`form__input`]}
-                  type="number"
-                  ref={this.priceRef}
-                  //onChange={handleUpdate}
-                />
-              </label>
-              <label className={formStyles[`form__label`]}>
-                Date
-                <input
-                  className={formStyles[`form__input`]}
-                  type="datetime-local"
-                  ref={this.dateRef}
-                  //onChange={handleUpdate}
-                />
-              </label>
-              <label className={formStyles[`form__label`]}>
-                Description
-                <textarea
-                  className={formStyles[`form__textarea`]}
-                  rows={4}
-                  ref={this.descriptionRef}
-                  //onChange={handleUpdate}
-                />
-              </label>
-            </form>
-            </Modal>
-          }
-          {this.context.token && (
+      {this.state.creating && <BackDrop />}
+      {this.state.creating &&
+        <Modal
+          title="Add Event"
+          canCancel
+          canConfirm
+          onCancel={this.onCancelCreateEvent}
+          onConfirm={this.onConfirmCreateEvent}
+        >
+        <form className={formStyles.form}>
+          <label className={formStyles[`form__label`]}>
+            Title
+            <input
+              className={formStyles[`form__input`]}
+              type="text"
+              // ref={this.titleRef}
+              name="title"
+              onChange={this.handleUpdate}
+            />
+          </label>
+          <label className={formStyles[`form__label`]}>
+            Price
+            <input
+              className={formStyles[`form__input`]}
+              type="number"
+              // ref={this.priceRef}
+              name="price"
+              onChange={this.handleUpdate}
+            />
+          </label>
+          <label className={formStyles[`form__label`]}>
+            Date
+            <input
+              className={formStyles[`form__input`]}
+              type="datetime-local"
+              // ref={this.dateRef}
+              name="date"
+              onChange={this.handleUpdate}
+            />
+          </label>
+          <label className={formStyles[`form__label`]}>
+            Description
+            <textarea
+              className={formStyles[`form__textarea`]}
+              rows={4}
+              // ref={this.descriptionRef}
+              name="description"
+              onChange={this.handleUpdate}
+            />
+          </label>
+        </form>
+      </Modal>
+      }
+        {this.context.token && (
+          <CreateEventContainer>
             <div>
               <p>Share your own Events!</p>
               <button
@@ -241,12 +243,10 @@ class Events extends React.Component {
                 Create Event
               </button>
             </div>
-          )}
-        </CreateEventContainer>
+          </CreateEventContainer>
+        )}
 
-        <EventsList>
-          {eventList}
-        </EventsList>
+        <EventsList events={this.state.events} />
       </View>
     );
   }
