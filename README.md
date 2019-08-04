@@ -8,8 +8,6 @@
   Gatsby-Event-Booking
 </h1>
 
-Project by <a href="https://www.babakchehraz.com/">Babak Chehraz</a>
 
-**See the demo to try it out and learn more about the project.**
 
-<a href="https://bchehraz.github.io/gatsby-event-booking/">DEMO</a>
+Try it out and learn more <a href="https://bchehraz.github.io/gatsby-event-booking/">HERE</a>
