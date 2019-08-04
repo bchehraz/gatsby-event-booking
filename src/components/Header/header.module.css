@@ -37,8 +37,7 @@
 }
 
 .header__link:hover,
-.header__link:active,
-.header__link:focus {
+.header__link:active {
   background: white;
   color: rebeccapurple;
 }
