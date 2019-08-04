@@ -6,7 +6,7 @@ import View from './View';
 const Home = () => (
   <View title="Events/Booking App with Authentication">
     <p>
-      Demo by <a href="https://www.babakchehraz.com/">Babak Chehraz</a>
+      [<a href="https://www.github.com/bchehraz/gatsby-event-booking">See on Github</a>]
     </p>
 
     <br />
@@ -22,14 +22,14 @@ const Home = () => (
       <li>
         (Client) GatsbyJS with React
         <br />
-        <a href="https://www.gatsbyjs.org">
+        <a target="_blank" rel="noopener noreferrer" href="https://www.gatsbyjs.org">
           {`https://www.gatsbyjs.org`}
         </a>
       </li>
       <li>
         (Server) Powered by Heroku
         <br />
-        <a href="https://www.heroku.com/">
+        <a target="_blank" rel="noopener noreferrer" href="https://www.heroku.com/">
           https://www.heroku.com/
         </a>
       </li>
@@ -39,7 +39,7 @@ const Home = () => (
       <li>
         (Database) MongoDB with Atlas
         <br />
-        <a href="https://www.mongodb.com/cloud/atlas">
+        <a target="_blank" rel="noopener noreferrer" href="https://www.mongodb.com/cloud/atlas">
           {`https://www.mongodb.com/cloud/atlas`}
         </a>
       </li>
@@ -52,7 +52,7 @@ const Home = () => (
       <li>
       Client is based on the Simple Auth App which demonstrates client side routing using Gatsby
         <br />
-        <a href="https://github.com/gatsbyjs/gatsby/blob/master/examples/simple-auth/README.md">
+        <a target="_blank" rel="noopener noreferrer" href="https://github.com/gatsbyjs/gatsby/blob/master/examples/simple-auth/README.md">
           {`https://github.com/gatsbyjs/gatsby/blob/master/examples/simple-auth/README.md`}
         </a>
       </li>
@@ -61,7 +61,7 @@ const Home = () => (
       <li>
       Core server functionality based upon a tutorial by Academind
       <br />
-      <a href="https://www.youtube.com/channel/UCSJbGtTlrDami-tDGPUV9-w">
+      <a target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/channel/UCSJbGtTlrDami-tDGPUV9-w">
         {`https://www.youtube.com/channel/UCSJbGtTlrDami-tDGPUV9-w`}
       </a>
       </li>
