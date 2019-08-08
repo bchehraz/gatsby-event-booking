@@ -8,6 +8,4 @@
   Gatsby-Event-Booking
 </h1>
 
-
-
 Demo it and learn more <a href="https://bchehraz.github.io/gatsby-event-booking/">HERE</a>
