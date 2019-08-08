@@ -4,7 +4,6 @@ module.exports = {
     description: `Simple event/booking with authentication with GraphQL Backend and MongoDB`,
     author: `@gatsbyjs`,
   },
-  pathPrefix: "/gatsby-event-booking",
   plugins: [
     `gatsby-plugin-react-helmet`,
     `gatsby-transformer-sharp`,
