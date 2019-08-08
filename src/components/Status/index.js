@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'gatsby';
 import { navigate } from '@reach/router';
 import styles from './status.module.css';
 import AuthContext from '../../context/auth-context';
@@ -12,25 +13,22 @@ const Status = () => {
             <p className={styles[`status__text`]}>
               Logged in as {context.userId}!
               {` `}
-              <a
-                href="/"
+              <Link
                 onClick={event => {
                   event.preventDefault();
                   context.logout();
                 }}
               >
                 log out
-              </a>
+              </Link>
             </p>
           )}
           {!context.token && (
             <p className={styles[`status__text`]}>
               To get the full app experience, you’ll need to
               {` `}
-              <a href="/" onClick={event => {
-                event.preventDefault();
-                navigate('/app/login');
-              }}>log in</a>.
+
+              <Link to="/app/login">log in</Link>.
             </p>
           )}
         </div>
