@@ -17,5 +17,8 @@
   "globals": {
     "fetch": false,
     "console": false,
+    "exports": false,
+    "window": false,
+    "module": false
   }
 }
