@@ -6,7 +6,7 @@ import Login from '../components/Login';
 import PrivateRoute from '../components/PrivateRoute';
 
 //import EventsPage from './components/events';
-import Home from '../components/Home';
+// import Home from '../components/Home';
 import Events from '../components/Events';
 import Bookings from '../components/Bookings';
 import Status from '../components/Status';
@@ -41,7 +41,7 @@ class App extends React.Component {
           <Router>
             {this.state.token && <Redirect from="/app/login" to="/app/events" exact noThrow />}
             {this.state.token && <Redirect from="/" to="/app/events" exact noThrow />}
-            <Home path="/" exact />
+
             <Events path="/app/events" />
             <PrivateRoute path="/app/bookings" component={Bookings} />
             <Login signUp={false} path="/app/login" />
