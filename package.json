@@ -1,12 +1,12 @@
 {
-  "name": "gatsby-starter-default",
+  "name": "gatsby-event-booking",
   "private": true,
-  "description": "A simple starter to get up and developing quickly with Gatsby",
+  "description": "A simple event-booking app with graphql authentication and mongodb",
   "version": "0.1.0",
   "author": "Babak Chehraz <babak.chehraz@gmail.com>",
   "dependencies": {
     "babel-plugin-styled-components": "^1.10.6",
-    "gatsby": "^2.13.39",
+    "gatsby": "^2.13.52",
     "gatsby-image": "^2.2.6",
     "gatsby-plugin-manifest": "^2.2.4",
     "gatsby-plugin-offline": "^2.2.4",
