@@ -13,7 +13,7 @@ const Modal = props => (
       </section>
       <section className={styles[`modal__actions`]}>
         {props.canCancel && <button className={formStyles[`form__button`]} onClick={props.onCancel}>Cancel</button>}
-        {props.canConfirm && <button className={formStyles[`form__button`]} onClick={props.onConfirm}>Confirm</button>}
+        {props.canConfirm && <button className={formStyles[`form__button`]} onClick={props.onConfirm}>{props.confirmText}</button>}
       </section>
     </View>
   </div>
@@ -26,6 +26,7 @@ Modal.propTypes = {
   children: PropTypes.any.isRequired,
   onCancel: PropTypes.func.isRequired,
   onConfirm: PropTypes.func.isRequired,
+  confirmText: PropTypes.string.isRequired,
 }
 
 export default Modal;
