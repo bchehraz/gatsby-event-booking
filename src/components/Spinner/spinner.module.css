@@ -1,0 +1,82 @@
+@keyframes lds__wedges {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes lds__wedges {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+.lds__wedges {
+  position: relative;
+}
+.lds__wedges > div > div {
+  -webkit-transform-origin: 100px 100px;
+  transform-origin: 100px 100px;
+  -webkit-animation: lds__wedges 3s linear infinite;
+  animation: lds__wedges 3s linear infinite;
+  opacity: 0.88;
+}
+.lds__wedges > div > div > div {
+  position: absolute;
+  left: 42px;
+  top: 42px;
+  width: 58px;
+  height: 58px;
+  border-radius: 58px 0 0 0;
+  -webkit-transform-origin: 100px 100px;
+  transform-origin: 100px 100px;
+}
+.lds__wedges > div div:nth-child(1) > div {
+  background: #e4d8eb;
+  -webkit-transform: rotate(0deg);
+  transform: rotate(0deg);
+}
+.lds__wedges > div div:nth-child(1) {
+  -webkit-animation-duration: 0.75s;
+  animation-duration: 0.75s;
+}
+.lds__wedges > div div:nth-child(2) > div {
+  background: #caacd4;
+  -webkit-transform: rotate(0deg);
+  transform: rotate(0deg);
+}
+.lds__wedges > div div:nth-child(2) {
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+}
+.lds__wedges > div div:nth-child(3) > div {
+  background: #b06cc5;
+  -webkit-transform: rotate(0deg);
+  transform: rotate(0deg);
+}
+.lds__wedges > div div:nth-child(3) {
+  -webkit-animation-duration: 1.5s;
+  animation-duration: 1.5s;
+}
+.lds__wedges > div div:nth-child(4) > div {
+  background: #9e3ea7;
+  -webkit-transform: rotate(0deg);
+  transform: rotate(0deg);
+}
+.lds__wedges > div div:nth-child(4) {
+  -webkit-animation-duration: 3s;
+  animation-duration: 3s;
+}
+.lds__wedges {
+  width: 200px !important;
+  height: 200px !important;
+  -webkit-transform: translate(-100px, -100px) scale(1) translate(100px, 100px);
+  transform: translate(-100px, -100px) scale(1) translate(100px, 100px);
+}
