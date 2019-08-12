@@ -18,6 +18,11 @@ const EventsList = props => {
         key={event._id}
         eventId={event._id}
         title={event.title}
+        price={event.price}
+        date={event.date}
+        userId={props.authUserId}
+        creatorId={event.creator._id}
+        onDetail={props.onViewDetail}
       />
     );
   })
@@ -27,6 +32,8 @@ const EventsList = props => {
 
 EventsList.propTypes = {
   events: PropTypes.array.isRequired,
+  authUserId: PropTypes.string.isRequired,
+  onViewDetail: PropTypes.func.isRequired,
 }
 
 export default EventsList;
