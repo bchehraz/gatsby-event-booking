@@ -8,4 +8,6 @@
   Gatsby-Event-Booking
 </h1>
 
-<a href="https://gatsby-event-booking.netlify.com/">Demo</a>
+<a href="https://gatsby-event-booking.netlify.com/" target="_blank">
+  Demo
+</a>
