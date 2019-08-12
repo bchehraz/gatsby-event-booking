@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'gatsby';
-import { navigate } from '@reach/router';
 import styles from './status.module.css';
 import AuthContext from '../../context/auth-context';
 
@@ -14,6 +13,7 @@ const Status = () => {
               Logged in as {context.userId}!
               {` `}
               <Link
+                to="/"
                 onClick={event => {
                   event.preventDefault();
                   context.logout();
