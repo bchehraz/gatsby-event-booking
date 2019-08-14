@@ -78,12 +78,17 @@ class Events extends React.Component {
     //prepare the graphql api request
     const requestBody = {
       query: `
-        mutation {
+        mutation CreateEvent(
+            $title: String!,
+            $description: String!,
+            $price: Float!,
+            $date: String!
+          ) {
           createEvent(eventInput: {
-            title: "${title}",
-            description: "${description}",
-            price: ${price},
-            date: "${date}"
+            title: $title,
+            description: $description,
+            price: $price,
+            date: $date
           }) {
             _id
             title
@@ -92,7 +97,13 @@ class Events extends React.Component {
             date
           }
         }
-      `
+      `,
+      variables: {
+        title,
+        description,
+        price,
+        date
+      }
     };
     console.log("Preparing Server Request >> Request Body Complete.");
 
@@ -208,14 +219,17 @@ class Events extends React.Component {
 
     const requestBody = {
       query: `
-        mutation {
-          bookEvent(eventId: "${this.state.selectedEvent._id}") {
+        mutation BookEvent($id: ID!) {
+          bookEvent(eventId: $id) {
             _id
             createdAt
             updatedAt
           }
         }
-      `
+      `,
+      variables: {
+        id: this.state.selectedEvent._id
+      }
     };
     console.log("Preparing Server Request >> Request Body Complete.");
     const { token } = this.context;
@@ -235,7 +249,7 @@ class Events extends React.Component {
       console.log("Server Output >> Book Event Mutation Successful");
       console.log("Server Output >> ");
       console.log(resData.data);
-      //console.log(resData);
+      this.setState({ selectedEvent: null });
     }).catch(err => {
       console.log(err);
     });

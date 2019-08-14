@@ -47,10 +47,10 @@ class Login extends React.Component {
 
     let requestBody = {
       query: `
-        query Login {
+        query Login($email: String!, $password: String!) {
           login(
-            email: "${email}",
-            password: "${password}"
+            email: $email,
+            password: $password
           ) {
             userId
             token
@@ -63,10 +63,10 @@ class Login extends React.Component {
     if (signUp) {
       requestBody = {
         query: `
-          mutation SignUp {
+          mutation SignUp($email: String!, $password: String!) {
             createUser(userInput: {
-              email: "${email}",
-              password: "${password}"
+              email: $email,
+              password: $password
             }) {
               _id
               email
@@ -75,6 +75,8 @@ class Login extends React.Component {
         `
       };
     }
+    requestBody.variables = { email, password };
+
     const action = (signUp) ? "Sign Up" : "Log In";
     console.log("Preparing " + action + " Server Request >> Request Body Complete.");
     fetch('https://graphql-event-booking.herokuapp.com/graphql', {
