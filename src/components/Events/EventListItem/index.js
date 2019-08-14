@@ -5,9 +5,12 @@ import styled from 'styled-components';
 import formStyles from '../../Form/form.module.css';
 
 const StyledEventListItem = styled.li`
-  margin: 1rem 0;
+  margin: 0;
   padding: 1rem;
-  border: 1px solid #663399;
+  border: 3px solid #663399;
+  border-left-width: 1px;
+  border-right-width: 1px;
+  border-top: none;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -26,6 +29,10 @@ const StyledEventListItem = styled.li`
 
   p {
     margin: 0;
+  }
+
+  :first-child {
+    border-top: 3px solid #663399;
   }
 `;
 
