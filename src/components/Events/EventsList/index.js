@@ -5,7 +5,7 @@ import EventListItem from '../EventListItem/';
 
 const StyledEventsList = styled.ul`
   width: 40rem;
-  max-width: 90%;
+  max-width: 100%;
   margin: 2rem auto;
   list-style: none;
   padding: 0;
