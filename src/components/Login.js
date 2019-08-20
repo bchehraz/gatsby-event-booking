@@ -98,7 +98,8 @@ class Login extends React.Component {
 
 
       if (resData.data.login) {
-        this.context.login(resData.data.login.token, resData.data.login.userId, resData.data.login.tokenExpiration);
+        const { token, userId, tokenExpiration } = resData.data.login;
+        this.context.login(token, userId, tokenExpiration);
       } else if (resData.data.createUser) {
         //
       }
