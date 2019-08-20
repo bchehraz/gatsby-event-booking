@@ -19,6 +19,7 @@
     "console": false,
     "exports": false,
     "window": false,
-    "module": false
+    "module": false,
+    "Promise": false
   }
 }
