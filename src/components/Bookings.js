@@ -1,74 +1,37 @@
 import React from 'react';
+import styled from 'styled-components';
+
+import AuthContext from '../context/auth-context';
 import View from './View';
 import Spinner from './Spinner';
 import BookingList from './Bookings/BookingList';
-import AuthContext from '../context/auth-context';
+import BookingsChart from './Bookings/BookingsChart';
+import BookingsControls from './Bookings/BookingsControls';
+import delay from '../utils/delay';
+import { getToken } from '../utils/auth';
+
+const Header = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 1rem;
+`;
 
 class Bookings extends React.Component {
+  static contextType = AuthContext;
+
   state = {
     isLoading: false,
     bookings: [],
-  }
-
-  static contextType = AuthContext;
-
-  constructor(props) {
-    super(props);
-
-    this.fetchBookings = this.fetchBookings.bind(this);
+    graphView: false,
   }
 
   componentDidMount() {
     this.fetchBookings();
   }
 
-  fetchBookings() {
-    this.setState({ isLoading: true });
-    const requestBody = {
-      query: `
-        query {
-          bookings {
-            _id
-            createdAt
-            event {
-              title
-              date
-            }
-          }
-        }
-      `
-    };
-    console.log("Preparing Server Request >> Request Body Complete.");
-
-    const { token } = this.context;
-
-    fetch('https://graphql-event-booking.herokuapp.com/graphql', {
-      method: 'POST',
-      body: JSON.stringify(requestBody),
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + token,
-      }
-    }).then(res => {
-      if(res.status !== 200 && res.status !== 201) {
-        throw new Error('Failed!');
-      }
-      return res.json();
-    }).then(resData => { // successful login or sign up
-      console.log("Server Output >> Bookings Query Successful");
-      console.log("Server Output >> ");
-      console.log(resData.data);
-
-      const { bookings } = resData.data;
-
-      this.setState({ bookings: bookings, isLoading: false });
-    }).catch(err => {
-      console.log(err);
-      this.setState({ isLoading: false });
-    });
-  }
-
-  cancelBookingHandler = bookingId => {
+  cancelBookingHandler = (bookingId) => {
     this.setState({ isLoading: true });
     const requestBody = {
       query: `
@@ -117,16 +80,89 @@ class Bookings extends React.Component {
     });
   }
 
+
+  fetchBookings = () => {
+    this.setState({ isLoading: true });
+    const requestBody = {
+      query: `
+        query {
+          bookings {
+            _id
+            createdAt
+            event {
+              title
+              date
+              price
+            }
+          }
+        }
+      `
+    };
+    console.log("Preparing Server Request >> Request Body Complete.");
+
+    //const { token } = this.context;
+    const token = this.context.token || getToken();
+    /*console.log(getUser());
+    console.log(this.context || getUser());
+    console.log(token);*/
+    fetch('https://graphql-event-booking.herokuapp.com/graphql', {
+      method: 'POST',
+      body: JSON.stringify(requestBody),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token,
+      }
+    }).then(res => {
+      if(res.status !== 200 && res.status !== 201) {
+        throw new Error('Failed!');
+      }
+      return res.json();
+    }).then(resData => { // successful login or sign up
+      console.log("Server Output >> Bookings Query Successful");
+      console.log("Server Output >> ");
+      console.log(resData.data);
+
+      const { bookings } = resData.data;
+      delay(() => this.setState({ bookings: bookings, isLoading: false }), 1000);
+    }).catch(err => {
+      console.log(err);
+      this.setState({ isLoading: false });
+    });
+
+  }
+
+  onChangeView = () => {
+    const { graphView } = this.state;
+    this.setState({ graphView: !graphView });
+  }
+
   render() {
     const { bookings, isLoading } = this.state;
+    let content = <Spinner />;
+    if (!isLoading) {
+      content = (
+        <React.Fragment>
+          <Header>
+            <h1>Your Bookings</h1>
+            <BookingsControls
+              graphView={this.state.graphView}
+              onChangeView={() => this.onChangeView()}
+            />
+          </Header>
+          <div>
+            {(this.state.graphView) ? <BookingsChart bookings={bookings || []} /> : (
+              <BookingList
+                bookings={bookings || []}
+                onCancelBooking={this.cancelBookingHandler}
+              />
+            )}
+          </div>
+        </React.Fragment>
+      );
+    }
     return (
-      <View title="Your Bookings">
-        {isLoading ? <Spinner /> : (
-          <BookingList
-            bookings={bookings}
-            onCancelBooking={this.cancelBookingHandler}
-          />
-        )}
+      <View title="">
+        {content}
       </View>
     );
   }
