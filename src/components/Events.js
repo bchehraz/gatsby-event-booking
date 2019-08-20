@@ -7,6 +7,7 @@ import BackDrop from './BackDrop';
 import AuthContext from '../context/auth-context';
 import EventsList from './Events/EventsList/';
 import Spinner from './Spinner/';
+import delay from '../utils/delay';
 
 const CreateEventContainer = styled.div`
   border: 1px solid black;
@@ -15,25 +16,21 @@ const CreateEventContainer = styled.div`
 `;
 
 class Events extends React.Component {
-  state = {
-    title: '',
-    description: '',
-    price: 0.0,
-    date: '',
-    creating: false,
-    events: [],
-    isLoading: false,
-    selectedEvent: false,
-  }
-
   static contextType = AuthContext;
 
   constructor(props) {
     super(props);
-    // this.titleRef = React.createRef();
-    // this.priceRef = React.createRef();
-    // this.dateRef = React.createRef();
-    // this.descriptionRef = React.createRef();
+
+    this.state = {
+      title: '',
+      description: '',
+      price: '',
+      date: '',
+      creating: false,
+      events: [],
+      isLoading: false,
+      selectedEvent: false,
+    }
 
     this.handleUpdate = this.handleUpdate.bind(this);
     this.onConfirmCreateEvent = this.onConfirmCreateEvent.bind(this);
@@ -54,21 +51,18 @@ class Events extends React.Component {
 
   onConfirmCreateEvent = () => {
     this.setState({ creating: false });
-    // const title = this.titleRef.current.value;
-    // const price = +this.priceRef.current.value;
-    // const date = this.dateRef.current.value;
-    // const description = this.descriptionRef.current.value;
     const { title, date, description } = this.state;
-    const price = +this.state.price;
+    const price = parseFloat(this.state.price);
 
     // if (!title || !price || !data || )
-    if (title.trim().length === 0 ||
-        price <= 0 ||
-        date.trim().length === 0 ||
-        description.trim().length === 0) {
+    if (title.trim().length === 0
+        || price < 0
+        || date.trim().length === 0
+        || description.trim().length === 0) {
           console.log("One of more fields empty");
           return;
         }
+
 
     const event = {
       title, price, date, description
@@ -152,7 +146,7 @@ class Events extends React.Component {
     });
   }
 
-  fetchEvents() {
+  fetchEvents = ()=> {
     this.setState({ isLoading: true });
     const requestBody = {
       query: `
@@ -191,7 +185,7 @@ class Events extends React.Component {
 
       const events = resData.data.events;
 
-      this.setState({ events: events, isLoading: false });
+      delay(() => this.setState({ events: events, isLoading: false }), 1000);
     }).catch(err => {
       console.log(err);
       this.setState({ isLoading: false });
@@ -199,6 +193,7 @@ class Events extends React.Component {
   }
 
   handleUpdate(event) {
+    console.log(">> " + event.target.name + " - " + event.target.value + " <<");
     this.setState({
       [event.target.name]: event.target.value,
     });
@@ -278,6 +273,7 @@ class Events extends React.Component {
                 type="text"
                 name="title"
                 onChange={this.handleUpdate}
+                value={this.state.title}
               />
             </label>
             <label className={formStyles[`form__label`]}>
@@ -287,6 +283,7 @@ class Events extends React.Component {
                 type="number"
                 name="price"
                 onChange={this.handleUpdate}
+                min="0"
               />
             </label>
             <label className={formStyles[`form__label`]}>
@@ -296,6 +293,7 @@ class Events extends React.Component {
                 type="datetime-local"
                 name="date"
                 onChange={this.handleUpdate}
+                value={this.state.date}
               />
             </label>
             <label className={formStyles[`form__label`]}>
@@ -305,6 +303,7 @@ class Events extends React.Component {
                 rows={4}
                 name="description"
                 onChange={this.handleUpdate}
+                value={this.state.description}
               />
             </label>
           </form>
