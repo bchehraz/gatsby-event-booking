@@ -26,20 +26,20 @@
   transform-origin: 100px 100px;
   -webkit-animation: lds__wedges 3s linear infinite;
   animation: lds__wedges 3s linear infinite;
-  opacity: 0.88;
+  opacity: 0.8;
 }
 .lds__wedges > div > div > div {
   position: absolute;
-  left: 42px;
-  top: 42px;
-  width: 58px;
-  height: 58px;
-  border-radius: 58px 0 0 0;
+  left: 30px;
+  top: 30px;
+  width: 70px;
+  height: 70px;
+  border-radius: 70px 0 0 0;
   -webkit-transform-origin: 100px 100px;
   transform-origin: 100px 100px;
 }
 .lds__wedges > div div:nth-child(1) > div {
-  background: #e4d8eb;
+  background: #8c799e;
   -webkit-transform: rotate(0deg);
   transform: rotate(0deg);
 }
@@ -48,7 +48,7 @@
   animation-duration: 0.75s;
 }
 .lds__wedges > div div:nth-child(2) > div {
-  background: #caacd4;
+  background: #8766a9;
   -webkit-transform: rotate(0deg);
   transform: rotate(0deg);
 }
@@ -57,7 +57,7 @@
   animation-duration: 1s;
 }
 .lds__wedges > div div:nth-child(3) > div {
-  background: #b06cc5;
+  background: #784ea2;
   -webkit-transform: rotate(0deg);
   transform: rotate(0deg);
 }
@@ -66,7 +66,7 @@
   animation-duration: 1.5s;
 }
 .lds__wedges > div div:nth-child(4) > div {
-  background: #9e3ea7;
+  background: #663399;
   -webkit-transform: rotate(0deg);
   transform: rotate(0deg);
 }
@@ -75,8 +75,8 @@
   animation-duration: 3s;
 }
 .lds__wedges {
-  width: 200px !important;
-  height: 200px !important;
-  -webkit-transform: translate(-100px, -100px) scale(1) translate(100px, 100px);
-  transform: translate(-100px, -100px) scale(1) translate(100px, 100px);
+  width: 100px !important;
+  height: 100px !important;
+  -webkit-transform: translate(-50px, -50px) scale(0.5) translate(50px, 50px);
+  transform: translate(-50px, -50px) scale(0.5) translate(50px, 50px);
 }
