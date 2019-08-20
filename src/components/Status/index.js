@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'gatsby';
 import styles from './status.module.css';
 import AuthContext from '../../context/auth-context';
+import { logout } from '../../utils/auth.js';
 
 const Status = () => {
   return (
@@ -16,7 +17,7 @@ const Status = () => {
                 to="/"
                 onClick={event => {
                   event.preventDefault();
-                  context.logout();
+                  logout(() => context.logout());
                 }}
               >
                 log out
