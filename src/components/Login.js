@@ -6,7 +6,8 @@ import View from './View';
 import AuthContext from '../context/auth-context';
 
 const ERRORS = {
-  auth: "Authentication Failed",
+  loginFail: "Email or password is incorrect",
+  signUpFail: "This email is already signed up",
   emptyEmail: "Email field is empty",
   emptyPassword: "Password field is empty",
   emptyFields: "Enter a valid email and password combination",
@@ -33,7 +34,7 @@ class Login extends React.Component {
     });
   }
 
-  getError = (email, password) => {
+  getLoginError = (email, password) => {
     if (!email) {
       if (!password) {
         return ERRORS.emptyFields;
@@ -50,7 +51,7 @@ class Login extends React.Component {
     const { email, password, signUp } = this.state;
 
     // Error Checking
-    const error = this.getError(email, password);
+    const error = this.getLoginError(email, password);
 
     // update error
     this.setState({ error });
@@ -85,8 +86,10 @@ class Login extends React.Component {
               email: $email,
               password: $password
             }) {
-              _id
+              userId
               email
+              token
+              tokenExpiration
             }
           }
         `
@@ -104,16 +107,15 @@ class Login extends React.Component {
       }
     }).then(res => {
       if(res.status !== 200 && res.status !== 201) {
+        this.setState({ error: ERRORS.loginFail });
         console.log("Server Output >> " + action + " Request Failed")
+        if (signUp) {
+          this.setState({ error: ERRORS.signUpFail });
+        }
         throw new Error('Failed!');
       }
       return res.json();
     }).then(resData => { // successful login or sign up
-      if (signUp && !resData.data.createUser) {
-        console.log("Server Output >> " + action + " Failed");
-        console.log("Server Output >> " + "Account already exists")
-        return false;
-      }
       console.log("Server Output >> " + action + " Successful");
       console.log("Server Output >> ");
       console.log(resData.data);
@@ -123,10 +125,8 @@ class Login extends React.Component {
         const { token, userId, tokenExpiration, email } = resData.data.login;
         this.context.login(token, userId, tokenExpiration, email);
       } else if (resData.data.createUser) {
-        this.setState({
-          email: '',
-          password: '',
-        });
+        const { token, userId, tokenExpiration, email } = resData.data.createUser;
+        this.context.login(token, userId, tokenExpiration, email);
       }
 
     }).catch(err => {
