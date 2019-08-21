@@ -49,6 +49,7 @@ class App extends React.Component {
           <Status />
           <Router>
             {this.state.token && <Redirect from="/app/login" to="/app/events" exact noThrow />}
+            {this.state.token && <Redirect from="/app/sign-up" to="/app/events" exact noThrow />}
 
             <PrivateRoute path="/app/bookings" component={Bookings} />
             <Events path="/app/events" />
