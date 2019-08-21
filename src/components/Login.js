@@ -5,13 +5,16 @@ import Form from './Form';
 import View from './View';
 import AuthContext from '../context/auth-context';
 
-/*const errors = {
-  auth: "Username or password is invalid",
-  username: "The username field is empty",
-  password: "The password field is empty",
-}*/
+const ERRORS = {
+  auth: "Authentication Failed",
+  emptyEmail: "Email field is empty",
+  emptyPassword: "Password field is empty",
+  emptyFields: "Enter a valid email and password combination",
+}
 
 class Login extends React.Component {
+  static contextType = AuthContext;
+
   constructor(props) {
     super(props);
 
@@ -20,11 +23,9 @@ class Login extends React.Component {
       password: ``,
       signUp: props.signUp,
       error: null,
+      selectable: true,
     }
   }
-
-
-  static contextType = AuthContext;
 
   handleUpdate(event) {
     this.setState({
@@ -32,18 +33,33 @@ class Login extends React.Component {
     });
   }
 
+  getError = (email, password) => {
+    if (!email) {
+      if (!password) {
+        return ERRORS.emptyFields;
+      }
+      return ERRORS.emptyEmail;
+    } else if (!password) {
+      return ERRORS.emptyPassword;
+    }
+    return null;
+  }
+
   handleSubmit(event) {
     event.preventDefault();
-
     const { email, password, signUp } = this.state;
 
-    if (!email || !password) {
-      //this.setState({ error: })
+    // Error Checking
+    const error = this.getError(email, password);
+
+    // update error
+    this.setState({ error });
+    if (error) {
       return false;
     }
-    if (email.trim().length === 0 || password.trim().length === 0) {
-      return false;
-    }
+
+    //Make text fields non-selectable while request is being sent
+    this.setState({ selectable: false });
 
     let requestBody = {
       query: `
@@ -92,6 +108,12 @@ class Login extends React.Component {
       }
       return res.json();
     }).then(resData => { // successful login or sign up
+      this.setState({ selectable: true });
+      if (signUp && !resData.data.createUser) {
+        console.log("Server Output >> " + action + " Failed");
+        console.log("Server Output >> " + "Account already exists")
+        return false;
+      }
       console.log("Server Output >> " + action + " Successful");
       console.log("Server Output >> ");
       console.log(resData.data);
@@ -101,13 +123,16 @@ class Login extends React.Component {
         const { token, userId, tokenExpiration } = resData.data.login;
         this.context.login(token, userId, tokenExpiration);
       } else if (resData.data.createUser) {
-        //
+        this.setState({
+          email: '',
+          password: '',
+        });
       }
 
     }).catch(err => {
       console.log(err);
     });
-    return false;
+    return true;
   }
 
   switchForm(event) {
@@ -125,6 +150,7 @@ class Login extends React.Component {
   }
 
   render() {
+    const { email, password, selectable, error } = this.state;
     return (
       <View title={(this.props.signUp) ? 'Sign Up' : 'Log In'}>
         <Form
@@ -132,6 +158,10 @@ class Login extends React.Component {
           handleSubmit={e => this.handleSubmit(e)}
           signUp={this.props.signUp}
           switchForm={e => this.switchForm(e)}
+          email={email}
+          password={password}
+          selectable={selectable}
+          error={error}
         />
       </View>
     );

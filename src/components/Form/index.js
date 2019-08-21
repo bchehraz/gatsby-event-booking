@@ -9,9 +9,8 @@ const Container = styled.div`
   padding: 5px;
 `;
 
-
 const Column = styled.div`
-  width: 45%;
+  width: 50%;
   padding: 5px;
 
   :nth-child(2) {
@@ -19,7 +18,16 @@ const Column = styled.div`
   }
 `;
 
-const Form = ({ handleSubmit, handleUpdate, signUp, switchForm }) => (
+const Form = ({
+  handleSubmit,
+  handleUpdate,
+  signUp,
+  switchForm,
+  email,
+  password,
+  selectable,
+  error,
+}) => (
   <Container>
     <Column>
       <form
@@ -27,8 +35,8 @@ const Form = ({ handleSubmit, handleUpdate, signUp, switchForm }) => (
         method="post"
         onSubmit={event => {
           handleSubmit(event);
-          //navigate(`/app/events`);
         }}
+        style={{ margin: '0 auto' }}
       >
         <label className={styles[`form__label`]}>
           Email
@@ -37,6 +45,8 @@ const Form = ({ handleSubmit, handleUpdate, signUp, switchForm }) => (
             type="text"
             name="email"
             onChange={handleUpdate}
+            value={email}
+            disabled={!selectable}
           />
         </label>
         <label className={styles[`form__label`]}>
@@ -46,8 +56,12 @@ const Form = ({ handleSubmit, handleUpdate, signUp, switchForm }) => (
             type="password"
             name="password"
             onChange={handleUpdate}
+            value={password}
+            disabled={!selectable}
           />
+          { (error) && <p style={{ textAlign: 'center', color: 'red', maxWidth: '200px' }}>{error}</p> }
         </label>
+
         <input
           className={styles[`form__button`]}
           type="submit"
@@ -55,7 +69,6 @@ const Form = ({ handleSubmit, handleUpdate, signUp, switchForm }) => (
         />
       </form>
     </Column>
-
     <Column>
       <div>
         {(signUp) ? "Already a member? " : "Not yet a member? "}
@@ -79,6 +92,10 @@ Form.propTypes = {
   handleUpdate: PropTypes.func.isRequired,
   signUp: PropTypes.bool.isRequired,
   switchForm: PropTypes.func.isRequired,
+  email: PropTypes.string.isRequired,
+  password: PropTypes.string.isRequired,
+  selectable: PropTypes.bool.isRequired,
+  error: PropTypes.string,
 }
 
 export default Form;
