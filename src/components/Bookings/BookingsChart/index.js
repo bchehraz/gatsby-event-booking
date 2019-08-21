@@ -11,16 +11,17 @@ const ChartContainer = styled.div`
 
 const BOOKINGS_CHART_BUCKETS = {
   'Free': { min: 0, max: 0, color: 'green' },
-  '$': { min: 0, max: 9.99, color: 'yellow' },
+  '$': { min: 0.01, max: 9.99, color: 'yellow' },
   '$$': { min: 10, max: 99.99, color: 'orange' },
   '$$$': { min: 100.00, max: 999999999, color: 'red' }
 }
 
 const BookingsChart = ({ bookings }) => {
-  const chartData = { labels: [], datasets: [] };
   let values = [];
   let colors = [];
-  // let i = 0;
+
+  const chartData = { labels: [], datasets: [] };
+
   for (const bucket in BOOKINGS_CHART_BUCKETS) {
     const filteredBookingsCount = bookings.reduce((prev, current) => {
       let price = Math.ceil(current.event.price);
