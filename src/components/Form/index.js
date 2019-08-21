@@ -11,7 +11,7 @@ const Container = styled.div`
 
 const Column = styled.div`
   width: 50%;
-  padding: 5px;
+  padding: 5px 0;
 
   :nth-child(2) {
     text-align: right;
@@ -59,7 +59,7 @@ const Form = ({
             value={password}
             disabled={!selectable}
           />
-          { (error) && <p style={{ textAlign: 'center', color: 'red', maxWidth: '200px' }}>{error}</p> }
+          { (error) && <p style={{ textAlign: 'left', color: 'red', maxWidth: '200px', padding: '5px', margin: 0 }}>{error}</p> }
         </label>
 
         <input
