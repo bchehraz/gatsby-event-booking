@@ -71,6 +71,7 @@ class Login extends React.Component {
             userId
             token
             tokenExpiration
+            email
           }
         }
       `
@@ -108,7 +109,6 @@ class Login extends React.Component {
       }
       return res.json();
     }).then(resData => { // successful login or sign up
-      this.setState({ selectable: true });
       if (signUp && !resData.data.createUser) {
         console.log("Server Output >> " + action + " Failed");
         console.log("Server Output >> " + "Account already exists")
@@ -120,8 +120,8 @@ class Login extends React.Component {
 
 
       if (resData.data.login) {
-        const { token, userId, tokenExpiration } = resData.data.login;
-        this.context.login(token, userId, tokenExpiration);
+        const { token, userId, tokenExpiration, email } = resData.data.login;
+        this.context.login(token, userId, tokenExpiration, email);
       } else if (resData.data.createUser) {
         this.setState({
           email: '',
@@ -132,6 +132,7 @@ class Login extends React.Component {
     }).catch(err => {
       console.log(err);
     });
+    this.setState({ selectable: true });
     return true;
   }
 
