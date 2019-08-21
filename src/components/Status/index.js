@@ -11,7 +11,7 @@ const Status = () => {
         <div className={styles.status}>
           {context.token && (
             <p className={styles[`status__text`]}>
-              Logged in as {context.userId}!
+              Logged in as {context.email}!
               {` `}
               <Link
                 to="/"

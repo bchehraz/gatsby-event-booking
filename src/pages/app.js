@@ -17,6 +17,7 @@ class App extends React.Component {
   state = {
     token: null,
     userId: null,
+    email: null,
   }
 
   componentDidMount() {
@@ -24,13 +25,13 @@ class App extends React.Component {
     this.setState({ token, userId });
   }
 
-  login = (token, userId, tokenExpiration) => {
-    this.setState({ token, userId, tokenExpiration });
-    onLoginSuccess(token, userId, tokenExpiration);
+  login = (token, userId, tokenExpiration, email) => {
+    this.setState({ token, userId, tokenExpiration, email });
+    onLoginSuccess(token, userId, tokenExpiration, email);
   }
 
   logout = () => {
-    this.setState({ token: null, userId: null });
+    this.setState({ token: null, userId: null, email: null });
   }
 
   render() {
@@ -39,6 +40,7 @@ class App extends React.Component {
         value={{
           token: this.state.token,
           userId: this.state.userId,
+          email: this.state.email,
           login: this.login,
           logout: this.logout,
         }}
