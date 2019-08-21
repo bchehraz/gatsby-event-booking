@@ -273,7 +273,6 @@ class Events extends React.Component {
                 type="text"
                 name="title"
                 onChange={this.handleUpdate}
-                value={this.state.title}
               />
             </label>
             <label className={formStyles[`form__label`]}>
@@ -293,7 +292,6 @@ class Events extends React.Component {
                 type="datetime-local"
                 name="date"
                 onChange={this.handleUpdate}
-                value={this.state.date}
               />
             </label>
             <label className={formStyles[`form__label`]}>
@@ -303,7 +301,6 @@ class Events extends React.Component {
                 rows={4}
                 name="description"
                 onChange={this.handleUpdate}
-                value={this.state.description}
               />
             </label>
           </form>
