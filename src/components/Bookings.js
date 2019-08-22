@@ -143,15 +143,16 @@ class Bookings extends React.Component {
         <React.Fragment>
           <Header>
             <h1>Your Bookings</h1>
-            <BookingsControls
+
+            {(bookings.length !== 0) && <BookingsControls
               graphView={this.state.graphView}
               onChangeView={() => this.onChangeView()}
-            />
+            />}
           </Header>
           <div>
-            {(this.state.graphView) ? <BookingsChart bookings={bookings || []} /> : (
+            {(this.state.graphView) ? <BookingsChart bookings={bookings} /> : (
               <BookingList
-                bookings={bookings || []}
+                bookings={bookings}
                 onCancelBooking={this.cancelBookingHandler}
               />
             )}
