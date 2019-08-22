@@ -7,7 +7,6 @@ import BackDrop from './BackDrop';
 import AuthContext from '../context/auth-context';
 import EventsList from './Events/EventsList/';
 import Spinner from './Spinner/';
-import delay from '../utils/delay';
 
 const CreateEventContainer = styled.div`
   border: 1px solid black;
@@ -184,8 +183,7 @@ class Events extends React.Component {
       console.log(resData.data);
 
       const events = resData.data.events;
-
-      delay(() => this.setState({ events: events, isLoading: false }), 1000);
+      this.setState({ events: events, isLoading: false });
     }).catch(err => {
       console.log(err);
       this.setState({ isLoading: false });
