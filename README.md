@@ -55,9 +55,9 @@
 <ul>
   <li>
   Core server functionality based upon a tutorial by Academind
-  
-  <a target="_blank" href="https://www.youtube.com/channel/UCSJbGtTlrDami-tDGPUV9-w">
-    https://www.youtube.com/channel/UCSJbGtTlrDami-tDGPUV9-w
-  </a>
+
+  [<a target="_blank" href="https://www.youtube.com/channel/UCSJbGtTlrDami-tDGPUV9-w">
+    Link to YouTube Page
+  </a>]
   </li>
 </ul>
