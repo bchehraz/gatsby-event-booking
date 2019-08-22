@@ -8,8 +8,7 @@
   Gatsby-Event-Booking
 </h1>
 
-<h4>By Babak Chehraz</h4>
-<br />
+<h4>Author: Babak Chehraz</h4>
 <p>
   [<a target="_blank" href="https://gatsby-event-booking.netlify.com/">Try Demo, Hosted by Netlify</a>]
 </p>
@@ -23,15 +22,13 @@
 <ul>
   <li>
     (Client) GatsbyJS with React
-
     <a target="_blank" href="https://www.gatsbyjs.org">
       https://www.gatsbyjs.org
     </a>
   </li>
   <li>
     (Server) Powered by Heroku
-
-    <a target="_blank" rel="noopener noreferrer" href="https://www.heroku.com/">
+    <a target="_blank" href="https://www.heroku.com/">
       https://www.heroku.com/
     </a>
   </li>
@@ -40,7 +37,6 @@
   </li>
   <li>
     (Database) MongoDB with Atlas
-
     <a target="_blank" href="https://www.mongodb.com/cloud/atlas">
       https://www.mongodb.com/cloud/atlas
     </a>
@@ -50,7 +46,7 @@
 <h3>Acknowledgements</h3>
 <ul>
   <li>
-  Client is based on the Simple Auth App which demonstrates client side routing using Gatsby
+  Client is based on the Simple Auth App which demonstrates client side routing using Gatsby (view source)
 
     <a target="_blank" href="https://github.com/gatsbyjs/gatsby/blob/master/examples/simple-auth/README.md">
       https://github.com/gatsbyjs/gatsby/blob/master/examples/simple-auth/README.md
