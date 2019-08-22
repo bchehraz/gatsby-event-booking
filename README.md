@@ -24,8 +24,8 @@
   <li>
     (Client) GatsbyJS with React
 
-    <a target="_blank" rel="noopener noreferrer" href="https://www.gatsbyjs.org">
-      {`https://www.gatsbyjs.org`}
+    <a target="_blank" href="https://www.gatsbyjs.org">
+      https://www.gatsbyjs.org
     </a>
   </li>
   <li>
@@ -41,8 +41,8 @@
   <li>
     (Database) MongoDB with Atlas
 
-    <a target="_blank" rel="noopener noreferrer" href="https://www.mongodb.com/cloud/atlas">
-      {`https://www.mongodb.com/cloud/atlas`}
+    <a target="_blank" href="https://www.mongodb.com/cloud/atlas">
+      https://www.mongodb.com/cloud/atlas
     </a>
   </li>
 </ul>
@@ -52,8 +52,8 @@
   <li>
   Client is based on the Simple Auth App which demonstrates client side routing using Gatsby
 
-    <a target="_blank" rel="noopener noreferrer" href="https://github.com/gatsbyjs/gatsby/blob/master/examples/simple-auth/README.md">
-      {`https://github.com/gatsbyjs/gatsby/blob/master/examples/simple-auth/README.md`}
+    <a target="_blank" href="https://github.com/gatsbyjs/gatsby/blob/master/examples/simple-auth/README.md">
+      https://github.com/gatsbyjs/gatsby/blob/master/examples/simple-auth/README.md
     </a>
   </li>
 </ul>
