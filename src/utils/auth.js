@@ -16,19 +16,20 @@ export const getToken = () => {
 export const isLoggedIn = () => {
   if (!isBrowser) return false;
 
-  const { token, userId } = getUser();
+  const { token, userId, email } = getUser();
   if (!token) {
     return false;
   }
-  return { token, userId };
+  return { token, userId, email };
 }
 
-export const onLoginSuccess = (token, userId, tokenExpiration) => {
+export const onLoginSuccess = (token, userId, tokenExpiration, email) => {
   console.log(`Login Successful`);
   return setUser({
     token,
     userId,
-    tokenExpiration
+    tokenExpiration,
+    email
   });
 }
 
