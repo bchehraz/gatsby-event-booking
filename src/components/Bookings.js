@@ -7,7 +7,6 @@ import Spinner from './Spinner';
 import BookingList from './Bookings/BookingList';
 import BookingsChart from './Bookings/BookingsChart';
 import BookingsControls from './Bookings/BookingsControls';
-import delay from '../utils/delay';
 import { getToken } from '../utils/auth';
 
 const Header = styled.div`
@@ -123,7 +122,7 @@ class Bookings extends React.Component {
       console.log(resData.data);
 
       const { bookings } = resData.data;
-      delay(() => this.setState({ bookings: bookings, isLoading: false }), 1000);
+      this.setState({ bookings: bookings, isLoading: false });
     }).catch(err => {
       console.log(err);
       this.setState({ isLoading: false });
