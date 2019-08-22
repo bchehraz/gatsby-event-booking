@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { navigate } from 'gatsby';
+
 import Form from './Form';
 import View from './View';
 import AuthContext from '../context/auth-context';
+import delay from '../utils/delay';
 
 const ERRORS = {
   loginFail: "Email or password is incorrect",
@@ -11,6 +13,16 @@ const ERRORS = {
   emptyEmail: "Email field is empty",
   emptyPassword: "Password field is empty",
   emptyFields: "Enter a valid email and password combination",
+}
+
+const SUCCESS_LABEL = {
+  login: 'Login Successful!',
+  signUp: 'Success! Logging in...'
+}
+
+const LOADING_LABEL = {
+  login: 'Validating...',
+  signUp: 'Creating Account...'
 }
 
 class Login extends React.Component {
@@ -46,8 +58,9 @@ class Login extends React.Component {
     return null;
   }
 
-  handleSubmit(event) {
-    event.preventDefault();
+  async handleSubmit() {
+    let result = false;
+    // event.preventDefault();
     const { email, password, signUp } = this.state;
 
     // Error Checking
@@ -99,7 +112,7 @@ class Login extends React.Component {
 
     const action = (signUp) ? "Sign Up" : "Log In";
     console.log("Preparing " + action + " Server Request >> Request Body Complete.");
-    fetch('https://graphql-event-booking.herokuapp.com/graphql', {
+    result = await fetch('https://graphql-event-booking.herokuapp.com/graphql', {
       method: 'POST',
       body: JSON.stringify(requestBody),
       headers: {
@@ -123,21 +136,23 @@ class Login extends React.Component {
 
       if (resData.data.login) {
         const { token, userId, tokenExpiration, email } = resData.data.login;
-        this.context.login(token, userId, tokenExpiration, email);
+        return { token, userId, tokenExpiration, email };
+        //delay(() => this.context.login(token, userId, tokenExpiration, email), 0);
       } else if (resData.data.createUser) {
+        this.setState({ result: true });
         const { token, userId, tokenExpiration, email } = resData.data.createUser;
-        this.context.login(token, userId, tokenExpiration, email);
+        return { token, userId, tokenExpiration, email };
+        //delay(() => this.context.login(token, userId, tokenExpiration, email), 0);
       }
-
     }).catch(err => {
       console.log(err);
     });
     this.setState({ selectable: true });
-    return true;
+    console.log("FETCHED RESULT >> " + result);
+    return result;
   }
 
-  switchForm(event) {
-    event.preventDefault();
+  switchForm() {
     const { signUp } = this.props;
     this.setState({
       ...this.state,
@@ -163,6 +178,9 @@ class Login extends React.Component {
           password={password}
           selectable={selectable}
           error={error}
+          resultLabel={((error) && "Oops!") || ((this.props.signUp) ? SUCCESS_LABEL.signUp : SUCCESS_LABEL.login)}
+          loadingLabel={(this.props.signUp) ? LOADING_LABEL.signUp : LOADING_LABEL.login}
+          contextLogin={this.context.login}
         />
       </View>
     );
