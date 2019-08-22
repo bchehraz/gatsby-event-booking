@@ -5,7 +5,6 @@ import Layout from '../components/Layout';
 import Login from '../components/Login';
 import PrivateRoute from '../components/PrivateRoute';
 
-//import EventsPage from './components/events';
 import Home from '../components/Home';
 import Events from '../components/Events';
 import Bookings from '../components/Bookings';
@@ -18,6 +17,7 @@ class App extends React.Component {
     token: null,
     userId: null,
     email: null,
+    tokenExpiration: null,
   }
 
   componentDidMount() {
@@ -31,7 +31,7 @@ class App extends React.Component {
   }
 
   logout = () => {
-    this.setState({ token: null, userId: null, email: null });
+    this.setState({ token: null, userId: null, email: null, tokenExpiration: null });
   }
 
   render() {
