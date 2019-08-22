@@ -5,9 +5,13 @@ import View from './View';
 
 const Home = () => (
   <View title="Events/Booking App with Authentication">
+    <h4>By Babak Chehraz</h4>
+    <br />
     <p>
       [<a href="https://www.github.com/bchehraz/gatsby-event-booking">See on Github</a>]
     </p>
+
+
 
     <br />
     <h3>Description</h3>
