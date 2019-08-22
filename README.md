@@ -10,7 +10,7 @@
 
 <h4>Author: Babak Chehraz</h4>
 <p>
-  [<a target="_blank" href="https://gatsby-event-booking.netlify.com/">Try Demo, Hosted by Netlify</a>]
+  [<a target="blank" href="https://gatsby-event-booking.netlify.com/">Try Demo, Hosted by Netlify</a>]
 </p>
 
 <h3>Description</h3>
@@ -22,13 +22,15 @@
 <ul>
   <li>
     (Client) GatsbyJS with React
-    [<a target="_blank" href="https://www.gatsbyjs.org">
+    
+    [<a target="blank" href="https://www.gatsbyjs.org">
       https://www.gatsbyjs.org
     </a>]
   </li>
   <li>
     (Server) Powered by Heroku
-    [<a target="_blank" href="https://www.heroku.com/">
+
+    [<a target="blank" href="https://www.heroku.com/">
       https://www.heroku.com/
     </a>]
   </li>
@@ -37,7 +39,8 @@
   </li>
   <li>
     (Database) MongoDB with Atlas
-    [<a target="_blank" href="https://www.mongodb.com/cloud/atlas">
+
+    [<a target="blank" href="https://www.mongodb.com/cloud/atlas">
       https://www.mongodb.com/cloud/atlas
     </a>]
   </li>
@@ -47,7 +50,8 @@
 <ul>
   <li>
   Client is based on the Simple Auth App which demonstrates client side routing using Gatsby
-    [<a target="_blank" href="https://github.com/gatsbyjs/gatsby/blob/master/examples/simple-auth/README.md">
+
+    [<a target="blank" href="https://github.com/gatsbyjs/gatsby/blob/master/examples/simple-auth/README.md">
       Github Source
     </a>]
   </li>
@@ -56,7 +60,7 @@
   <li>
   Core server functionality based upon a tutorial by Academind
 
-  [<a target="_blank" href="https://www.youtube.com/channel/UCSJbGtTlrDami-tDGPUV9-w">
+  [<a target="blank" href="https://www.youtube.com/channel/UCSJbGtTlrDami-tDGPUV9-w">
     Link to YouTube Page
   </a>]
   </li>
