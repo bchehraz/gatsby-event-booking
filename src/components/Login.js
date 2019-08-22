@@ -9,10 +9,10 @@ import delay from '../utils/delay';
 
 const ERRORS = {
   loginFail: "Email or password is incorrect",
-  signUpFail: "This email is already signed up",
-  emptyEmail: "Email field is empty",
-  emptyPassword: "Password field is empty",
-  emptyFields: "Enter a valid email and password combination",
+  signUpFail: "Email already signed up",
+  emptyEmail: "Enter your email",
+  emptyPassword: "Enter your password",
+  emptyFields: "Invalid Login",
 }
 
 const SUCCESS_LABEL = {
@@ -37,6 +37,9 @@ class Login extends React.Component {
       signUp: props.signUp,
       error: null,
       selectable: true,
+      result: false,
+      loading: false,
+      success: false,
     }
   }
 
@@ -58,9 +61,8 @@ class Login extends React.Component {
     return null;
   }
 
-  async handleSubmit() {
-    let result = false;
-    // event.preventDefault();
+  handleSubmit(event) {
+    event.preventDefault();
     const { email, password, signUp } = this.state;
 
     // Error Checking
@@ -73,7 +75,8 @@ class Login extends React.Component {
     }
 
     //Make text fields non-selectable while request is being sent
-    this.setState({ selectable: false });
+    // also start loading
+    this.setState({ selectable: false, loading: true });
 
     let requestBody = {
       query: `
@@ -112,7 +115,7 @@ class Login extends React.Component {
 
     const action = (signUp) ? "Sign Up" : "Log In";
     console.log("Preparing " + action + " Server Request >> Request Body Complete.");
-    result = await fetch('https://graphql-event-booking.herokuapp.com/graphql', {
+    fetch('https://graphql-event-booking.herokuapp.com/graphql', {
       method: 'POST',
       body: JSON.stringify(requestBody),
       headers: {
@@ -120,12 +123,9 @@ class Login extends React.Component {
       }
     }).then(res => {
       if(res.status !== 200 && res.status !== 201) {
-        this.setState({ error: ERRORS.loginFail });
-        console.log("Server Output >> " + action + " Request Failed")
-        if (signUp) {
-          this.setState({ error: ERRORS.signUpFail });
-        }
-        throw new Error('Failed!');
+        this.setState({ error: (signUp) ? ERRORS.signUpFail : ERRORS.loginFail });
+        this.setState({ selectable: true, loading: false });
+        throw new Error("Server Output >> " + action + " Request Failed");
       }
       return res.json();
     }).then(resData => { // successful login or sign up
@@ -133,26 +133,26 @@ class Login extends React.Component {
       console.log("Server Output >> ");
       console.log(resData.data);
 
-
       if (resData.data.login) {
         const { token, userId, tokenExpiration, email } = resData.data.login;
-        return { token, userId, tokenExpiration, email };
-        //delay(() => this.context.login(token, userId, tokenExpiration, email), 0);
+        this.setState({ result: true });
+        this.setState({ selectable: true, loading: false, success: true });
+        delay(() => this.context.login(token, userId, tokenExpiration, email), 1000);
       } else if (resData.data.createUser) {
         this.setState({ result: true });
         const { token, userId, tokenExpiration, email } = resData.data.createUser;
-        return { token, userId, tokenExpiration, email };
-        //delay(() => this.context.login(token, userId, tokenExpiration, email), 0);
+        this.setState({ selectable: true, loading: false, success: true });
+        delay(() => this.context.login(token, userId, tokenExpiration, email), 1000);
       }
     }).catch(err => {
       console.log(err);
     });
-    this.setState({ selectable: true });
-    console.log("FETCHED RESULT >> " + result);
-    return result;
+
+    return true;
   }
 
-  switchForm() {
+  switchForm(event) {
+    event.preventDefault();
     const { signUp } = this.props;
     this.setState({
       ...this.state,
@@ -166,9 +166,9 @@ class Login extends React.Component {
   }
 
   render() {
-    const { email, password, selectable, error } = this.state;
+    const { email, password, selectable, error, loading, success } = this.state;
     return (
-      <View title={(this.props.signUp) ? 'Sign Up' : 'Log In'}>
+      <View title={(this.props.signUp) ? 'Create a New Account' : 'Log In'}>
         <Form
           handleUpdate={e => this.handleUpdate(e)}
           handleSubmit={e => this.handleSubmit(e)}
@@ -178,9 +178,8 @@ class Login extends React.Component {
           password={password}
           selectable={selectable}
           error={error}
-          resultLabel={((error) && "Oops!") || ((this.props.signUp) ? SUCCESS_LABEL.signUp : SUCCESS_LABEL.login)}
-          loadingLabel={(this.props.signUp) ? LOADING_LABEL.signUp : LOADING_LABEL.login}
-          contextLogin={this.context.login}
+          loading={loading}
+          success={success}
         />
       </View>
     );
