@@ -22,43 +22,42 @@
 <ul>
   <li>
     (Client) GatsbyJS with React
-    <a target="_blank" href="https://www.gatsbyjs.org">
+    [<a target="_blank" href="https://www.gatsbyjs.org">
       https://www.gatsbyjs.org
-    </a>
+    </a>]
   </li>
   <li>
     (Server) Powered by Heroku
-    <a target="_blank" href="https://www.heroku.com/">
+    [<a target="_blank" href="https://www.heroku.com/">
       https://www.heroku.com/
-    </a>
+    </a>]
   </li>
   <li>
     (API) GraphQL with NodeJS, Express
   </li>
   <li>
     (Database) MongoDB with Atlas
-    <a target="_blank" href="https://www.mongodb.com/cloud/atlas">
+    [<a target="_blank" href="https://www.mongodb.com/cloud/atlas">
       https://www.mongodb.com/cloud/atlas
-    </a>
+    </a>]
   </li>
 </ul>
 
 <h3>Acknowledgements</h3>
 <ul>
   <li>
-  Client is based on the Simple Auth App which demonstrates client side routing using Gatsby (view source)
-
-    <a target="_blank" href="https://github.com/gatsbyjs/gatsby/blob/master/examples/simple-auth/README.md">
-      https://github.com/gatsbyjs/gatsby/blob/master/examples/simple-auth/README.md
-    </a>
+  Client is based on the Simple Auth App which demonstrates client side routing using Gatsby
+    [<a target="_blank" href="https://github.com/gatsbyjs/gatsby/blob/master/examples/simple-auth/README.md">
+      Github Source
+    </a>]
   </li>
 </ul>
 <ul>
   <li>
   Core server functionality based upon a tutorial by Academind
-  <br />
-  <a target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/channel/UCSJbGtTlrDami-tDGPUV9-w">
-    {`https://www.youtube.com/channel/UCSJbGtTlrDami-tDGPUV9-w`}
+  
+  <a target="_blank" href="https://www.youtube.com/channel/UCSJbGtTlrDami-tDGPUV9-w">
+    https://www.youtube.com/channel/UCSJbGtTlrDami-tDGPUV9-w
   </a>
   </li>
 </ul>
