@@ -21,8 +21,8 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    const { token, userId } = isLoggedIn();
-    this.setState({ token, userId });
+    const { token, userId, email } = isLoggedIn();
+    this.setState({ token, userId, email });
   }
 
   login = (token, userId, tokenExpiration, email) => {
