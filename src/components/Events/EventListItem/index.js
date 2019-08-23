@@ -55,7 +55,7 @@ const EventListItem = props => (
     <div>
       {
         (props.userId === props.creatorId)
-          ? <p>{`You're the owner of this event`}</p>
+          ? <p>{`Event Owner`}</p>
           : <button
               className={formStyles[`form__button`]}
               onClick={props.onDetail.bind(this, props.eventId)}
