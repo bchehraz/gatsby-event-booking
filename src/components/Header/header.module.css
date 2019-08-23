@@ -15,11 +15,11 @@
 
 .header__heading {
   margin: 0;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
 }
 
 .header__nav {
-  font-size: 1rem;
+  font-size: 0.8rem;
   margin-top: 0;
   text-align: right;
 }
