@@ -15,7 +15,7 @@ const Header = () => (
                 styles[`header__link--home`]
               }`}
             >
-              {`Gatsby Events`}
+              {`Gatsby Events[1]`}
             </Link>
           </h1>
           <nav role="main" className={styles[`header__nav`]}>
