@@ -8,6 +8,7 @@ const Home = () => (
     title="Events/Booking App with Authentication"
     style={{
       overflow: 'hidden',
+      padding: '10px',
     }}
   >
     <h4>By Babak Chehraz</h4>
