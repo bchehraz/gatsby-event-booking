@@ -19,7 +19,7 @@
 }
 
 .header__nav {
-  font-size: 0.8rem;
+  font-size: 1rem;
   margin-top: 0;
   text-align: right;
 }
@@ -44,6 +44,11 @@
 }
 
 @media only screen and (min-width: 500px) {
+  .header__wrap {
+    flex-flow: row wrap;
+    justify-content: center;
+  }
+
   .header__heading {
     font-size: 2rem;
   }
