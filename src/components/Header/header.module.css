@@ -5,8 +5,8 @@
 
 .header__wrap {
   display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-between;
+  flex-flow: row wrap;
+  justify-content: center;
   align-items: center;
   padding: 1rem 0;
   margin: 0 auto;
@@ -43,12 +43,13 @@
   color: rebeccapurple;
 }
 
-@media only screen and (min-width: 500px) {
+@media only screen and (min-width: 400px) {
   .header__wrap {
-    flex-flow: row wrap;
-    justify-content: center;
+    justify-content: space-between;
   }
+}
 
+@media only screen and (min-width: 500px) {
   .header__heading {
     font-size: 2rem;
   }
