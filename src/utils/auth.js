@@ -1,4 +1,5 @@
-const isBrowser = typeof window !== `undefined`;
+// const isBrowser = typeof window !== `undefined`;
+const isBrowser = true;
 
 const getUser = () =>
   window.localStorage.user
