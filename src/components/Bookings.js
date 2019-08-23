@@ -136,7 +136,8 @@ class Bookings extends React.Component {
   }
 
   render() {
-    const { bookings, isLoading } = this.state;
+    const { isLoading } = this.state;
+    let bookings = this.state.bookings || [];
     let content = <Spinner />;
     if (!isLoading) {
       content = (
