@@ -1,23 +1,25 @@
 .header {
   background-color: rebeccapurple;
+  max-width: 100vw;
 }
 
 .header__wrap {
-  align-items: baseline;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
   margin: 0 auto;
   max-width: 640px;
-  padding: 1rem 0;
 }
 
 .header__heading {
   margin: 0;
-  font-size: 2rem;
+  font-size: 1.5rem;
 }
 
 .header__nav {
-  font-size: 1.25rem;
+  font-size: 1rem;
   margin-top: 0;
   text-align: right;
 }
@@ -32,7 +34,6 @@
 }
 
 .header__link--home {
-  font-size: 2rem;
   margin-left: -0.25rem;
 }
 
@@ -40,4 +41,14 @@
 .header__link:active {
   background: white;
   color: rebeccapurple;
+}
+
+@media only screen and (min-width: 500px) {
+  .header__heading {
+    font-size: 2rem;
+  }
+
+  .header__nav {
+    font-size: 1.25rem;
+  }
 }

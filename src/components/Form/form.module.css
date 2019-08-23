@@ -30,11 +30,12 @@
   background-color: rebeccapurple;
   border: 0;
   color: white;
-  font-size: 1.25rem;
+  font-size: 0.75rem;
   font-weight: bold;
   margin-top: 0.5rem;
   padding: 0.25rem 1rem;
   transition: background-color 150ms linear;
+  margin: 0 auto;
 }
 
 .form__button:hover {
@@ -45,4 +46,10 @@
 .form__button:active,
 .form__button:focus {
   background-color: color(rebeccapurple lightness(-20%));
+}
+
+@media only screen and (min-width: 500px) {
+  .form__button {
+    font-size: 1.25rem;
+  }
 }

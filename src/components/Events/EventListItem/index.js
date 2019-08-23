@@ -17,13 +17,13 @@ const StyledEventListItem = styled.li`
 
   h1 {
     margin: 0;
-    font-size: 1.5rem;
+    font-size: 1rem;
     color: #663399;
   }
 
   h2 {
     margin: 0;
-    font-size: 1rem;
+    font-size: 0.75rem;
     color: #7c7c7c;
   }
 
@@ -33,6 +33,16 @@ const StyledEventListItem = styled.li`
 
   :first-child {
     border-top: 3px solid #663399;
+  }
+
+  @media only screen and (min-width: 500px) {
+    h1 {
+      font-size: 1.5rem;
+    }
+
+    h2 {
+      font-size: 1rem;
+    }
   }
 `;
 
@@ -50,7 +60,7 @@ const EventListItem = props => (
               className={formStyles[`form__button`]}
               onClick={props.onDetail.bind(this, props.eventId)}
             >
-              View Details
+              {`Details`}
             </button>
       }
     </div>
