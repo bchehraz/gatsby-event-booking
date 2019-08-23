@@ -41,10 +41,11 @@ module.exports = {
       options: {
         name: `Gatsby Events`,
         short_name: `GatsbyEvents`,
-        start_url: `/app/login`,
+        start_url: `/`,
         background_color: `#f7f0eb`,
         theme_color: `#663399`,
         display: `standalone`,
+        icon: `src/images/icon.png`,
       },
     },
   ],
