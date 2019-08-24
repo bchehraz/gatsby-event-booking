@@ -13,7 +13,7 @@ const Container = styled.div`
 
   @media only screen and (min-width: 500px) {
     flex-flow: row nowrap;
-    align-items: flex-start;
+    align-items: flex-end;
     justify-content: center;
   }
 `;
@@ -21,11 +21,20 @@ const Container = styled.div`
 const Column = styled.div`
   width: 100%;
   margin: 0 auto;
-  padding: 1rem;
+  padding: 0;
   max-width: 300px;
 
   :nth-child(2) {
     max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: 100%;
+
+    div {
+      padding: 2.5rem;
+    }
   }
 `;
 
@@ -34,7 +43,25 @@ const SubmitContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  padding: 10px 0px;
+  padding: 10px 0 0;
+`;
+
+const ResponseMessage = styled.div`
+  width: 100%;
+  text-align: center;
+
+  .success, .error {
+    color: white;
+    background-color: #39ce6b;
+    width: 100%;
+    margin: 10px auto 0;
+    padding: 10px;
+  }
+
+  .error {
+    color: white;
+    background-color: #d84e4e;
+  }
 `;
 
 const Form = ({
@@ -45,9 +72,7 @@ const Form = ({
   email,
   password,
   selectable,
-  error,
-  loading,
-  success,
+  response
 }) => (
   <Container>
     <Column>
@@ -88,27 +113,23 @@ const Form = ({
             className={styles[`form__button`]}
             value={(signUp) ? 'Sign Up' : 'Log In'}
           />
-          <div style={{ width: '100%', maxWidth: '200px' }}>
-            {loading && <Spinner style={{ margin: '0 auto' }} />}
-            {(error && !loading) && <p style={{ textAlign: 'center', color: 'red', maxWidth: '200px', padding: 10, margin: 0 }}>{error}</p>}
-            {(success && <p style={{ textAlign: 'center', color: 'green', maxWidth: '200px', padding: 10, margin: 0 }}>{(signUp) ? "Done! Logging in..." : "Authenticated!"}</p>)}
-          </div>
+          <ResponseMessage>
+            {response}
+          </ResponseMessage>
         </SubmitContainer>
       </form>
     </Column>
     <Column>
       <div>
-        {(signUp) ? "Already a member? " : "Not yet a member? "}
+        {(signUp) ? "Already a member? " : "Still not a member? "}
       </div>
 
-      <div style={{ margin: 0, padding: 0 }}>
-        <button
-          className={styles[`form__button`]}
-          onClick={switchForm}
-        >
-          {(signUp) ? 'Login' : `Sign Up`}
-        </button>
-      </div>
+      <button
+        className={styles[`form__button`]}
+        onClick={switchForm}
+      >
+        {(signUp) ? 'Login' : `Sign Up`}
+      </button>
     </Column>
   </Container>
 );
@@ -121,8 +142,7 @@ Form.propTypes = {
   email: PropTypes.string.isRequired,
   password: PropTypes.string.isRequired,
   selectable: PropTypes.bool.isRequired,
-  error: PropTypes.string,
-  loading: PropTypes.bool.isRequired,
+  response: PropTypes.object,
 }
 
 export default Form;
