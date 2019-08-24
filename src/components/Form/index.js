@@ -7,16 +7,25 @@ import styles from './form.module.css';
 
 const Container = styled.div`
   display: flex;
-  flex-direction: row;
-  padding: 5px;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  @media only screen and (min-width: 500px) {
+    flex-flow: row nowrap;
+    align-items: flex-start;
+    justify-content: center;
+  }
 `;
 
 const Column = styled.div`
-  width: 50%;
-  padding: 5px 0;
+  width: 100%;
+  margin: 0 auto;
+  padding: 1rem;
+  max-width: 300px;
 
   :nth-child(2) {
-    text-align: right;
+    max-width: 300px;
   }
 `;
 
@@ -26,11 +35,6 @@ const SubmitContainer = styled.div`
   justify-content: center;
   align-items: flex-start;
   padding: 10px 0px;
-
-  input {
-    width: 100%;
-    max-width: 200px;
-  }
 `;
 
 const Form = ({
@@ -53,7 +57,6 @@ const Form = ({
         onSubmit={event => {
           handleSubmit(event);
         }}
-        style={{ margin: '0 auto' }}
       >
         <label className={styles[`form__label`]}>
           Email

@@ -1,5 +1,6 @@
 .form {
-  margin: 1rem 0;
+  margin: 0 auto;
+  width: 100%;
 }
 
 .form__label {
@@ -14,9 +15,10 @@
 }
 
 .form__input {
-  display: block;
   font-size: 1rem;
-  padding: 0.25rem;
+  padding: 0.5rem;
+  width: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 .form__textarea {
@@ -30,12 +32,14 @@
   background-color: rebeccapurple;
   border: 0;
   color: white;
-  font-size: 0.75rem;
+  font-size: 1.25rem;
   font-weight: bold;
   margin-top: 0.5rem;
   padding: 0.25rem 1rem;
+  padding: 0.5rem 1rem;
   transition: background-color 150ms linear;
   margin: 0 auto;
+  width: 100%;
 }
 
 .form__button:hover {
@@ -46,10 +50,4 @@
 .form__button:active,
 .form__button:focus {
   background-color: color(rebeccapurple lightness(-20%));
-}
-
-@media only screen and (min-width: 500px) {
-  .form__button {
-    font-size: 1.25rem;
-  }
 }
