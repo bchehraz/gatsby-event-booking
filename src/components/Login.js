@@ -4,6 +4,7 @@ import { navigate } from 'gatsby';
 
 import Form from './Form';
 import View from './View';
+import Spinner from './Spinner';
 import AuthContext from '../context/auth-context';
 import delay from '../utils/delay';
 
@@ -16,13 +17,8 @@ const ERRORS = {
 }
 
 const SUCCESS_LABEL = {
-  login: 'Login Successful!',
-  signUp: 'Success! Logging in...'
-}
-
-const LOADING_LABEL = {
-  login: 'Validating...',
-  signUp: 'Creating Account...'
+  signUp: 'Done! Logging in...',
+  login: 'Authenticated!'
 }
 
 class Login extends React.Component {
@@ -37,7 +33,6 @@ class Login extends React.Component {
       signUp: props.signUp,
       error: null,
       selectable: true,
-      result: false,
       loading: false,
       success: false,
     }
@@ -135,11 +130,9 @@ class Login extends React.Component {
 
       if (resData.data.login) {
         const { token, userId, tokenExpiration, email } = resData.data.login;
-        this.setState({ result: true });
         this.setState({ selectable: true, loading: false, success: true });
         delay(() => this.context.login(token, userId, tokenExpiration, email), 1000);
       } else if (resData.data.createUser) {
-        this.setState({ result: true });
         const { token, userId, tokenExpiration, email } = resData.data.createUser;
         this.setState({ selectable: true, loading: false, success: true });
         delay(() => this.context.login(token, userId, tokenExpiration, email), 1000);
@@ -165,8 +158,22 @@ class Login extends React.Component {
     }
   }
 
+  getResponse = () => {
+    const { loading, error, success } = this.state;
+
+    if (loading) {
+      return <Spinner style={{ margin: '0 auto' }} />;
+    } else if (error) {
+      return <p className="error">{error}</p>;
+    } else if (success) {
+      return <p className="success">{(this.state.signUp) ? SUCCESS_LABEL.signUp : SUCCESS_LABEL.login }</p>;
+    }
+    return <div />;
+  }
+
   render() {
-    const { email, password, selectable, error, loading, success } = this.state;
+    const response = this.getResponse();
+    const { email, password, selectable } = this.state;
     return (
       <View title={(this.props.signUp) ? 'Create a New Account' : 'Log In'}>
         <Form
@@ -177,9 +184,7 @@ class Login extends React.Component {
           email={email}
           password={password}
           selectable={selectable}
-          error={error}
-          loading={loading}
-          success={success}
+          response={response}
         />
       </View>
     );
