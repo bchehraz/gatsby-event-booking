@@ -62,7 +62,7 @@ const Form = ({
           Email
           <input
             className={styles[`form__input`]}
-            type="text"
+            type="email"
             name="email"
             onChange={handleUpdate}
             value={email}
