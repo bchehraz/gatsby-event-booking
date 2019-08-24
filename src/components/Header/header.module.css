@@ -16,6 +16,12 @@
 .header__heading {
   margin: 0;
   font-size: 1.5rem;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+   -khtml-user-select: none; /* Konqueror HTML */
+     -moz-user-select: none; /* Firefox */
+      -ms-user-select: none; /* Internet Explorer/Edge */
+          user-select: none;
 }
 
 .header__nav {
@@ -31,6 +37,12 @@
   margin-top: 0;
   padding: 0.25rem;
   text-decoration: none;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+   -khtml-user-select: none; /* Konqueror HTML */
+     -moz-user-select: none; /* Firefox */
+      -ms-user-select: none; /* Internet Explorer/Edge */
+          user-select: none;
 }
 
 .header__link--home {
@@ -38,7 +50,8 @@
 }
 
 .header__link:hover,
-.header__link:active {
+.header__link:active,
+.header__link:focus {
   background: white;
   color: rebeccapurple;
 }
