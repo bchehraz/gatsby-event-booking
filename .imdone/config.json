@@ -21,6 +21,10 @@
     {
       "name": "DONE",
       "hidden": false
+    },
+    {
+      "name": "ASSIGNED",
+      "hidden": false
     }
   ],
   "code": {
@@ -39,7 +43,8 @@
       "REVIEW",
       "MARK",
       "HELP",
-      "ICEBOX"
+      "ICEBOX",
+      "ASSIGNED"
     ]
   },
   "keepEmptyPriority": true,
