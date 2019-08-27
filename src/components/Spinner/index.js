@@ -6,6 +6,7 @@ const Spinner = (props) => (
     style={{
       display: 'flex',
       justifyContent: 'center',
+      margin: '0 auto',
       ...props.style
     }}
   >
