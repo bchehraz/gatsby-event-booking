@@ -52,7 +52,10 @@ const AirbnbSlider = withStyles({
   },
 })(Slider);
 
-// TODO: Wire up this component to the Events Page
+// TODO: Wire up this component to the Events Page id:7
+// - <https://github.com/bchehraz/gatsby-event-booking/issues/3>
+// Babak Chehraz
+// bchehraz@csumb.edu
 
 const RangeSlider = () => {
   //console.log(t);
