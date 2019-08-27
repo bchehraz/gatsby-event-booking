@@ -7,15 +7,24 @@ import BackDrop from './BackDrop';
 import AuthContext from '../context/auth-context';
 import EventsList from './Events/EventsList/';
 import Spinner from './Spinner/';
+import { FaPlusCircle as FaPlus } from 'react-icons/fa';
 
 const CreateEventContainer = styled.div`
-  border: 1px solid black;
-  text-align: center;
-  padding: 1rem;
+  button {
+    background-color: #663399;
+    padding: 1.5rem 0;
+    margin: 0;
+
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: center;
+  }
 `;
 
 class Events extends React.Component {
   static contextType = AuthContext;
+  _isMounted = false;
 
   constructor(props) {
     super(props);
@@ -37,7 +46,12 @@ class Events extends React.Component {
   }
 
   componentDidMount() {
+    this._isMounted = true;
     this.fetchEvents();
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   startCreateEventHandler = () => {
@@ -183,7 +197,10 @@ class Events extends React.Component {
       console.log(resData.data);
 
       const events = resData.data.events;
-      this.setState({ events: events, isLoading: false });
+
+      if (this._isMounted) {
+        this.setState({ events: events, isLoading: false });
+      }
     }).catch(err => {
       console.log(err);
       this.setState({ isLoading: false });
@@ -319,15 +336,12 @@ class Events extends React.Component {
       }
         {this.context.token && (
           <CreateEventContainer>
-            <div>
-              <p>Share your own Events!</p>
-              <button
-                className={formStyles[`form__button`]}
-                onClick={this.startCreateEventHandler}
-              >
-                {`Create Event`}
-              </button>
-            </div>
+            <button
+              className={formStyles[`form__button`]}
+              onClick={this.startCreateEventHandler}
+            >
+              <FaPlus size={30} style={{ marginRight: '1rem' }}/>{`New Event`}
+            </button>
           </CreateEventContainer>
         )}
 
