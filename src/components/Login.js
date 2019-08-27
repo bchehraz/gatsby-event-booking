@@ -159,21 +159,19 @@ class Login extends React.Component {
   }
 
   getResponse = () => {
-    const { loading, error, success } = this.state;
+    const { error, success } = this.state;
 
-    if (loading) {
-      return <Spinner style={{ margin: '0 auto' }} />;
-    } else if (error) {
+    if (error) {
       return <p className="error">{error}</p>;
     } else if (success) {
       return <p className="success">{(this.state.signUp) ? SUCCESS_LABEL.signUp : SUCCESS_LABEL.login }</p>;
     }
-    return <div />;
+    return null;
   }
 
   render() {
     const response = this.getResponse();
-    const { email, password, selectable } = this.state;
+    const { email, password, selectable, loading, success } = this.state;
     return (
       <View title={(this.props.signUp) ? 'Create a New Account' : 'Log In'}>
         <Form
@@ -185,6 +183,8 @@ class Login extends React.Component {
           password={password}
           selectable={selectable}
           response={response}
+          isLoading={loading}
+          success={success}
         />
       </View>
     );
