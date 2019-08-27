@@ -15,10 +15,6 @@
   },
   "lists": [
     {
-      "name": "HELP",
-      "hidden": false
-    },
-    {
       "name": "ICEBOX",
       "hidden": false
     },
