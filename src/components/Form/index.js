@@ -13,7 +13,7 @@ const Container = styled.div`
 
   @media only screen and (min-width: 500px) {
     flex-flow: row nowrap;
-    align-items: flex-end;
+    align-items: flex-start;
     justify-content: center;
   }
 `;
@@ -21,16 +21,15 @@ const Container = styled.div`
 const Column = styled.div`
   width: 100%;
   margin: 0 auto;
-  padding: 0;
-  max-width: 300px;
+  padding: 1rem;
+  min-width: 50%;
 
   :nth-child(2) {
-    max-width: 300px;
+    margin-top: 19px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    height: 100%;
 
     div {
       padding: 2.5rem;
@@ -54,12 +53,11 @@ const ResponseMessage = styled.div`
     color: white;
     background-color: #39ce6b;
     width: 100%;
-    margin: 10px auto 0;
-    padding: 10px;
+    padding: 0.5rem 1rem;
+    margin-top: 0.5rem;
   }
 
   .error {
-    color: white;
     background-color: #d84e4e;
   }
 `;
@@ -72,7 +70,9 @@ const Form = ({
   email,
   password,
   selectable,
-  response
+  response,
+  isLoading,
+  success,
 }) => (
   <Container>
     <Column>
@@ -108,11 +108,15 @@ const Form = ({
         </label>
 
         <SubmitContainer>
-          <input
-            type="submit"
-            className={styles[`form__button`]}
-            value={(signUp) ? 'Sign Up' : 'Log In'}
-          />
+          {!isLoading ?
+            (!success && <input
+              type="submit"
+              className={styles[`form__button`]}
+              value={(signUp) ? 'Sign Up' : 'Log In'}
+            />
+          ) : (
+            <Spinner style={{ padding: 2 }} />
+          )}
           <ResponseMessage>
             {response}
           </ResponseMessage>
@@ -120,7 +124,7 @@ const Form = ({
       </form>
     </Column>
     <Column>
-      <div>
+      <div style={{ whiteSpace: 'nowrap' }}>
         {(signUp) ? "Already a member? " : "Still not a member? "}
       </div>
 
@@ -143,6 +147,8 @@ Form.propTypes = {
   password: PropTypes.string.isRequired,
   selectable: PropTypes.bool.isRequired,
   response: PropTypes.object,
+  isLoading: PropTypes.bool.isRequired,
+  success: PropTypes.bool.isRequired,
 }
 
 export default Form;
