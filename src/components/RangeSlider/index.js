@@ -52,7 +52,7 @@ const AirbnbSlider = withStyles({
   },
 })(Slider);
 
-//Wire up this component to the Events Page
+// TODO: Wire up this component to the Events Page
 
 const RangeSlider = () => {
   //console.log(t);
