@@ -23,11 +23,11 @@
       "hidden": false
     },
     {
-      "name": "DONE",
+      "name": "FOR-REVIEW",
       "hidden": false
     },
     {
-      "name": "FOR-REVIEW",
+      "name": "DONE",
       "hidden": false
     }
   ],
