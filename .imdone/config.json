@@ -19,11 +19,11 @@
       "hidden": false
     },
     {
-      "name": "DONE",
+      "name": "ASSIGNED",
       "hidden": false
     },
     {
-      "name": "ASSIGNED",
+      "name": "DONE",
       "hidden": false
     }
   ],
