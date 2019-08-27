@@ -6,7 +6,7 @@ import EventListItem from '../EventListItem/';
 const StyledEventsList = styled.ul`
   width: 40rem;
   max-width: 100%;
-  margin: 2rem auto;
+  margin: 0 auto;
   list-style: none;
   padding: 0;
 `;
@@ -27,7 +27,11 @@ const EventsList = props => {
     );
   })
 
-  return <StyledEventsList>{events}</StyledEventsList>
+  return (
+    <StyledEventsList>
+      {events}
+    </StyledEventsList>
+  )
 }
 
 EventsList.propTypes = {
