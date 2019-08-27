@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import { FaPlusCircle as FaPlus } from 'react-icons/fa';
+
 import formStyles from './Form/form.module.css';
 import View from './View';
 import Modal from './Modal';
@@ -7,7 +9,7 @@ import BackDrop from './BackDrop';
 import AuthContext from '../context/auth-context';
 import EventsList from './Events/EventsList/';
 import Spinner from './Spinner/';
-import { FaPlusCircle as FaPlus } from 'react-icons/fa';
+import RangeSlider from './RangeSlider';
 
 const CreateEventContainer = styled.div`
   button {
@@ -163,8 +165,8 @@ class Events extends React.Component {
     this.setState({ isLoading: true });
     const requestBody = {
       query: `
-        query {
-          events {
+        query Events($greaterThan: Float!, $lessThan: Float!) {
+          events(sort: "date", priceRange: { gt: $greaterThan, lt: $lessThan }) {
             _id
             title
             description
@@ -176,7 +178,11 @@ class Events extends React.Component {
             }
           }
         }
-      `
+      `,
+      variables: {
+        greaterThan: 0,
+        lessThan: 999999,
+      }
     };
     console.log("Preparing Server Request >> Request Body Complete.");
 
@@ -268,6 +274,7 @@ class Events extends React.Component {
   render() {
     return (
       <View title="Events">
+        <RangeSlider />
       {(this.state.creating || this.state.selectedEvent) && (
         <BackDrop onClick={this.onCancelAction} />
       )}
