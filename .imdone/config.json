@@ -17,13 +17,23 @@
       "XXX",
       "IDEA",
       "NOTE",
-      "REVIEW"
+      "REVIEW",
+      "MARK",
+      "HELP"
     ]
   },
   "lists": [
     {
       "name": "TODO",
       "hidden": true
+    },
+    {
+      "name": "DONE",
+      "hidden": false
+    },
+    {
+      "name": "HELP",
+      "hidden": false
     }
   ],
   "marked": {
@@ -33,5 +43,10 @@
     "pedantic": false,
     "smartLists": true,
     "langPrefix": "language-"
+  },
+  "sync": {
+    "id": "5d65a7b019723715eb45bc37",
+    "name": "bchehraz/gatsby-event-booking",
+    "useImdoneioForPriority": true
   }
 }
