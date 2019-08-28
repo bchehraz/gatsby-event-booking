@@ -17,13 +17,18 @@
       "XXX",
       "IDEA",
       "NOTE",
-      "REVIEW"
+      "REVIEW",
+      "ICEBOX"
     ]
   },
   "lists": [
     {
+      "name": "ICEBOX",
+      "hidden": false
+    },
+    {
       "name": "TODO",
-      "hidden": true
+      "hidden": false
     }
   ],
   "marked": {

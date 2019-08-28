@@ -9,7 +9,6 @@ import BackDrop from './BackDrop';
 import AuthContext from '../context/auth-context';
 import EventsList from './Events/EventsList/';
 import Spinner from './Spinner/';
-import RangeSlider from './RangeSlider';
 
 const CreateEventContainer = styled.div`
   button {
@@ -61,7 +60,7 @@ class Events extends React.Component {
   }
 
   onCancelAction = () => {
-    this.setState({ creating: false, selectedEvent: null, });
+    this.setState({ creating: false, selectedEvent: null });
   }
 
   onConfirmCreateEvent = () => {
@@ -274,7 +273,6 @@ class Events extends React.Component {
   render() {
     return (
       <View title="Events">
-        <RangeSlider />
       {(this.state.creating || this.state.selectedEvent) && (
         <BackDrop onClick={this.onCancelAction} />
       )}
