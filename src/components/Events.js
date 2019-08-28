@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { FaPlusCircle as FaPlus } from 'react-icons/fa';
+import Switch from 'react-switch';
 
 import formStyles from './Form/form.module.css';
 import View from './View';
@@ -39,16 +40,18 @@ class Events extends React.Component {
       events: [],
       isLoading: false,
       selectedEvent: false,
+      checked: false,
     }
 
     this.handleUpdate = this.handleUpdate.bind(this);
     this.onConfirmCreateEvent = this.onConfirmCreateEvent.bind(this);
     this.bookEventHandler = this.bookEventHandler.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
     this._isMounted = true;
-    this.fetchEvents();
+    this.fetchEvents(false);
   }
 
   componentWillUnmount() {
@@ -160,12 +163,13 @@ class Events extends React.Component {
     });
   }
 
-  fetchEvents = ()=> {
+  fetchEvents = (checked = false) => {
     this.setState({ isLoading: true });
+    console.log("Checked inside FetchEvents: " + this.state.checked);
     const requestBody = {
       query: `
-        query Events($greaterThan: Float!, $lessThan: Float!) {
-          events(sort: "date", priceRange: { gt: $greaterThan, lt: $lessThan }) {
+        query Events($freeOnly: Boolean) {
+          events(freeOnly: $freeOnly) {
             _id
             title
             description
@@ -179,8 +183,7 @@ class Events extends React.Component {
         }
       `,
       variables: {
-        greaterThan: 0,
-        lessThan: 999999,
+        freeOnly: checked,
       }
     };
     console.log("Preparing Server Request >> Request Body Complete.");
@@ -270,75 +273,93 @@ class Events extends React.Component {
     });
   }
 
+  handleChange(checked) {
+    this.setState({ checked });
+    this.fetchEvents(checked);
+  }
+
   render() {
+    console.log("checked: " + this.state.checked);
     return (
       <View title="Events">
-      {(this.state.creating || this.state.selectedEvent) && (
-        <BackDrop onClick={this.onCancelAction} />
-      )}
-      {this.state.creating &&
-        <Modal
-          title="Add Event"
-          canCancel
-          canConfirm
-          onCancel={this.onCancelAction}
-          onConfirm={this.onConfirmCreateEvent}
-          confirmText="Confirm"
-        >
-          <form className={formStyles.form}>
-            <label className={formStyles[`form__label`]}>
-              Title
-              <input
-                className={formStyles[`form__input`]}
-                type="text"
-                name="title"
-                onChange={this.handleUpdate}
-              />
-            </label>
-            <label className={formStyles[`form__label`]}>
-              Price
-              <input
-                className={formStyles[`form__input`]}
-                type="number"
-                name="price"
-                onChange={this.handleUpdate}
-                min="0"
-              />
-            </label>
-            <label className={formStyles[`form__label`]}>
-              Date
-              <input
-                className={formStyles[`form__input`]}
-                type="datetime-local"
-                name="date"
-                onChange={this.handleUpdate}
-              />
-            </label>
-            <label className={formStyles[`form__label`]}>
-              Description
-              <textarea
-                className={formStyles[`form__textarea`]}
-                rows={4}
-                name="description"
-                onChange={this.handleUpdate}
-              />
-            </label>
-          </form>
-        </Modal>
-      }
-      {this.state.selectedEvent &&
-        <Modal
-          title={this.state.selectedEvent.title}
-          canCancel
-          canConfirm
-          onCancel={this.onCancelAction}
-          onConfirm={this.bookEventHandler}
-          confirmText={this.context.token ? "Book This Event" : "Confirm"}
-        >
-          <h2>${this.state.selectedEvent.price} - {new Date(this.state.selectedEvent.date).toLocaleDateString()}</h2>
-          <p>{this.state.selectedEvent.description}</p>
-        </Modal>
-      }
+        <label style={{ display: 'flex', alignItems: 'center' }}>
+          <span style={{ padding: '10px', margin: '0 0 0 auto', }}>{`Show Only Free Events`}</span>
+          <Switch
+            onChange={this.handleChange}
+            checked={this.state.checked}
+            onColor={'#663399'}
+            uncheckedIcon={false}
+            checkedIcon={false}
+            height={32}
+            width={64}
+          />
+        </label>
+        {(this.state.creating || this.state.selectedEvent) && (
+          <BackDrop onClick={this.onCancelAction} />
+        )}
+        {this.state.creating &&
+          <Modal
+            title="Add Event"
+            canCancel
+            canConfirm
+            onCancel={this.onCancelAction}
+            onConfirm={this.onConfirmCreateEvent}
+            confirmText="Confirm"
+          >
+            <form className={formStyles.form}>
+              <label className={formStyles[`form__label`]}>
+                Title
+                <input
+                  className={formStyles[`form__input`]}
+                  type="text"
+                  name="title"
+                  onChange={this.handleUpdate}
+                />
+              </label>
+              <label className={formStyles[`form__label`]}>
+                Price
+                <input
+                  className={formStyles[`form__input`]}
+                  type="number"
+                  name="price"
+                  onChange={this.handleUpdate}
+                  min="0"
+                />
+              </label>
+              <label className={formStyles[`form__label`]}>
+                Date
+                <input
+                  className={formStyles[`form__input`]}
+                  type="datetime-local"
+                  name="date"
+                  onChange={this.handleUpdate}
+                />
+              </label>
+              <label className={formStyles[`form__label`]}>
+                Description
+                <textarea
+                  className={formStyles[`form__textarea`]}
+                  rows={4}
+                  name="description"
+                  onChange={this.handleUpdate}
+                />
+              </label>
+            </form>
+          </Modal>
+        }
+        {this.state.selectedEvent &&
+          <Modal
+            title={this.state.selectedEvent.title}
+            canCancel
+            canConfirm
+            onCancel={this.onCancelAction}
+            onConfirm={this.bookEventHandler}
+            confirmText={this.context.token ? "Book This Event" : "Confirm"}
+          >
+            <h2>${this.state.selectedEvent.price} - {new Date(this.state.selectedEvent.date).toLocaleDateString()}</h2>
+            <p>{this.state.selectedEvent.description}</p>
+          </Modal>
+        }
         {this.context.token && (
           <CreateEventContainer>
             <button
@@ -352,11 +373,13 @@ class Events extends React.Component {
 
         {this.state.isLoading
           ? <Spinner />
-          : <EventsList
+          : (
+            <EventsList
               events={this.state.events}
               authUserId={this.context.userId + ""}
               onViewDetail={this.showDetailHandler}
             />
+          )
         }
       </View>
     );
