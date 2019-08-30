@@ -1,28 +1,15 @@
 import React from 'react';
-import styled from 'styled-components';
-import { FaPlusCircle as FaPlus } from 'react-icons/fa';
-import Switch from 'react-switch';
 
-import formStyles from './Form/form.module.css';
 import View from './View';
 import Modal from './Modal';
 import BackDrop from './BackDrop';
 import AuthContext from '../context/auth-context';
 import EventsList from './Events/EventsList/';
 import Spinner from './Spinner/';
-
-const CreateEventContainer = styled.div`
-  button {
-    background-color: #663399;
-    padding: 1.5rem 0;
-    margin: 0;
-
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
-    justify-content: center;
-  }
-`;
+import CustomSwitch from './CustomSwitch/';
+import CreateEventButton from './Buttons/CreateEvent';
+import AddEventForm from './Form/AddEvent/';
+import { createEvent, fetchEvents, bookEvent } from '../utils/events.js';
 
 class Events extends React.Component {
   static contextType = AuthContext;
@@ -51,7 +38,7 @@ class Events extends React.Component {
 
   componentDidMount() {
     this._isMounted = true;
-    this.fetchEvents(false);
+    this.getEvents(false);
   }
 
   componentWillUnmount() {
@@ -66,157 +53,69 @@ class Events extends React.Component {
     this.setState({ creating: false, selectedEvent: null });
   }
 
-  onConfirmCreateEvent = () => {
-    this.setState({ creating: false });
+  sortEventsByDate(events) {
+    events.sort(function(a, b) {
+      return new Date(a.date).getTime() - new Date(b.date).getTime();
+    });
+    return events;
+  }
+
+  onConfirmCreateEvent = async () => {
+    this.setState({ creating: false, isLoading: true });
+
+    const { token } = this.context;
+    if (!token) {
+      return;
+    }
+
     const { title, date, description } = this.state;
     const price = parseFloat(this.state.price);
 
-    // if (!title || !price || !data || )
-    if (title.trim().length === 0
-        || price < 0
-        || date.trim().length === 0
-        || description.trim().length === 0) {
-          console.log("One of more fields empty");
-          return;
-        }
+    const newEvent = { title, description, date, price };
+    const data = await createEvent(token, newEvent);
 
-
-    const event = {
-      title, price, date, description
-    }
-    console.log(event);
-
-    //prepare the graphql api request
-    const requestBody = {
-      query: `
-        mutation CreateEvent(
-            $title: String!,
-            $description: String!,
-            $price: Float!,
-            $date: String!
-          ) {
-          createEvent(eventInput: {
-            title: $title,
-            description: $description,
-            price: $price,
-            date: $date
-          }) {
-            _id
-            title
-            description
-            price
-            date
-          }
-        }
-      `,
-      variables: {
-        title,
-        description,
-        price,
-        date
-      }
-    };
-    console.log("Preparing Server Request >> Request Body Complete.");
-
-    const { token } = this.context;
-
-    if (!token) {
-      console.log("Preparing Request Header >> Invalid Token Found");
-    } else {
-      console.log("Preparing Request Header >> Valid Token Found");
+    if (!data) {
+      return false;
     }
 
-    fetch('https://graphql-event-booking.herokuapp.com/graphql', {
-      method: 'POST',
-      body: JSON.stringify(requestBody),
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + token,
-      }
-    }).then(res => {
-      if(res.status !== 200 && res.status !== 201) {
-        throw new Error('Failed!');
-      }
-      return res.json();
-    }).then(resData => { // successful login or sign up
-      console.log("Server Output >> Create Event Successful");
-      console.log("Server Output >> ");
-      console.log(resData.data);
-
-      this.setState(prevState => {
-        const updatedEvents = [...prevState.events];
-        const { title, description, price, date } = resData.data.createEvent;
-        updatedEvents.push({
-          _id: this.context.userId,
-          title: title,
-          description: description,
-          price: price,
-          date: date,
-          creator: {
-            _id: this.context.userId
-          },
-        });
-        return { events: updatedEvents };
+    // Add new event to the events list and update state
+    this.setState(prevState => {
+      let updatedEvents = [...prevState.events];
+      const { title, description, price, date } = data;
+      updatedEvents.push({
+        _id: this.context.userId,
+        title: title,
+        description: description,
+        price: price,
+        date: date,
+        creator: {
+          _id: this.context.userId
+        },
       });
-    }).catch(err => {
-      console.log(err);
+      // Sort events by date before updating the state
+      updatedEvents = this.sortEventsByDate(updatedEvents);
+      return { events: updatedEvents };
     });
+
+    this.setState({ isLoading: false });
   }
 
-  fetchEvents = (checked = false) => {
+  getEvents = async (filterOnlyFree = false) => {
     this.setState({ isLoading: true });
-    console.log("Checked inside FetchEvents: " + this.state.checked);
-    const requestBody = {
-      query: `
-        query Events($freeOnly: Boolean) {
-          events(freeOnly: $freeOnly) {
-            _id
-            title
-            description
-            price
-            date
-            creator {
-              _id
-              email
-            }
-          }
-        }
-      `,
-      variables: {
-        freeOnly: checked,
-      }
-    };
-    console.log("Preparing Server Request >> Request Body Complete.");
 
-    fetch('https://graphql-event-booking.herokuapp.com/graphql', {
-      method: 'POST',
-      body: JSON.stringify(requestBody),
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    }).then(res => {
-      if(res.status !== 200 && res.status !== 201) {
-        throw new Error('Failed!');
-      }
-      return res.json();
-    }).then(resData => { // successful login or sign up
-      console.log("Server Output >> Events Query Successful");
-      console.log("Server Output >> ");
-      console.log(resData.data);
+    let events = await fetchEvents(filterOnlyFree);
 
-      const events = resData.data.events;
-
-      if (this._isMounted) {
-        this.setState({ events: events, isLoading: false });
-      }
-    }).catch(err => {
-      console.log(err);
+    if (!events) {
       this.setState({ isLoading: false });
-    });
+      return;
+    }
+
+    events = this.sortEventsByDate(events);
+
+    this.setState({ events, isLoading: false });
   }
 
   handleUpdate(event) {
-    console.log(">> " + event.target.name + " - " + event.target.value + " <<");
     this.setState({
       [event.target.name]: event.target.value,
     });
@@ -229,71 +128,32 @@ class Events extends React.Component {
     })
   }
 
-  bookEventHandler() {
-    if (!this.context.token) {
+  async bookEventHandler() {
+    const { token } = this.context;
+    if (!token) {
       this.setState({ selectedEvent: null });
       return;
     }
+    const selectedEventId = this.state.selectedEvent._id;
+    const response = await bookEvent(token, selectedEventId);
 
-    const requestBody = {
-      query: `
-        mutation BookEvent($id: ID!) {
-          bookEvent(eventId: $id) {
-            _id
-            createdAt
-            updatedAt
-          }
-        }
-      `,
-      variables: {
-        id: this.state.selectedEvent._id
-      }
-    };
-    console.log("Preparing Server Request >> Request Body Complete.");
-    const { token } = this.context;
-    fetch('https://graphql-event-booking.herokuapp.com/graphql', {
-      method: 'POST',
-      body: JSON.stringify(requestBody),
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + token,
-      }
-    }).then(res => {
-      if(res.status !== 200 && res.status !== 201) {
-        throw new Error('Failed!');
-      }
-      return res.json();
-    }).then(resData => { // successful login or sign up
-      console.log("Server Output >> Book Event Mutation Successful");
-      console.log("Server Output >> ");
-      console.log(resData.data);
-      this.setState({ selectedEvent: null });
-    }).catch(err => {
-      console.log(err);
-    });
+    if (!response) return;
+
+    this.setState({ selectedEvent: null });
   }
 
   handleChange(checked) {
     this.setState({ checked });
-    this.fetchEvents(checked);
+    this.getEvents(checked);
   }
 
   render() {
-    console.log("checked: " + this.state.checked);
     return (
       <View title="Events">
-        <label style={{ display: 'flex', alignItems: 'center' }}>
-          <span style={{ padding: '10px', margin: '0 0 0 auto', }}>{`Show Only Free Events`}</span>
-          <Switch
-            onChange={this.handleChange}
-            checked={this.state.checked}
-            onColor={'#663399'}
-            uncheckedIcon={false}
-            checkedIcon={false}
-            height={32}
-            width={64}
-          />
-        </label>
+        <CustomSwitch
+          onChange={this.handleChange}
+          checked={this.state.checked}
+        />
         {(this.state.creating || this.state.selectedEvent) && (
           <BackDrop onClick={this.onCancelAction} />
         )}
@@ -306,45 +166,9 @@ class Events extends React.Component {
             onConfirm={this.onConfirmCreateEvent}
             confirmText="Confirm"
           >
-            <form className={formStyles.form}>
-              <label className={formStyles[`form__label`]}>
-                Title
-                <input
-                  className={formStyles[`form__input`]}
-                  type="text"
-                  name="title"
-                  onChange={this.handleUpdate}
-                />
-              </label>
-              <label className={formStyles[`form__label`]}>
-                Price
-                <input
-                  className={formStyles[`form__input`]}
-                  type="number"
-                  name="price"
-                  onChange={this.handleUpdate}
-                  min="0"
-                />
-              </label>
-              <label className={formStyles[`form__label`]}>
-                Date
-                <input
-                  className={formStyles[`form__input`]}
-                  type="datetime-local"
-                  name="date"
-                  onChange={this.handleUpdate}
-                />
-              </label>
-              <label className={formStyles[`form__label`]}>
-                Description
-                <textarea
-                  className={formStyles[`form__textarea`]}
-                  rows={4}
-                  name="description"
-                  onChange={this.handleUpdate}
-                />
-              </label>
-            </form>
+            <AddEventForm
+              onChange={this.handleUpdate}
+            />
           </Modal>
         }
         {this.state.selectedEvent &&
@@ -361,14 +185,9 @@ class Events extends React.Component {
           </Modal>
         }
         {this.context.token && (
-          <CreateEventContainer>
-            <button
-              className={formStyles[`form__button`]}
-              onClick={this.startCreateEventHandler}
-            >
-              <FaPlus size={30} style={{ marginRight: '1rem' }}/>{`New Event`}
-            </button>
-          </CreateEventContainer>
+          <CreateEventButton
+            buttonText={`New Event`} onClick={this.startCreateEventHandler}
+          />
         )}
 
         {this.state.isLoading
