@@ -1,40 +1,149 @@
 
 .modal {
   width: 90%;
-  background: white;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-  position: fixed;
-  top: 20vh;
+  background: #ddd;
+  position: absolute;
+  top: 5%;
   left: 5%;
   z-index: 100;
-  padding: 0 1em;
+  height: 90vh;
+  padding: 2rem 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: space-between;
+  justify-content: center;
 }
 
-.modal form {
-  text-align: left;
-  margin: 0 auto;
+.modal__content form {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
+  flex-flow: row wrap;
+  margin: 0 auto;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.modal form label input[type="text"],
+.modal form label input[type="number"],
+.modal form label input[type="datetime-local"],
+.modal form label textarea,
+.modal form label {
+  width: 100%;
+  max-width: 100%;
+  display: flex;
   flex-direction: column;
 }
 
-.modal__content {
-  padding: 1rem;
+.modal form label:nth-child(3) input {
+  padding: 0.5rem 0;
+  margin: 0;
+  width: 100%;
+  text-align: center;
+}
+
+.modal form label:first-child {
+  width: 73%;
+}
+
+.modal form label:nth-child(2) {
+  width: 25%;
 }
 
 .modal__actions {
   display: flex;
-  justify-content: flex-end;
-  padding: 1rem;
+  flex-flow: row wrap;
+}
+
+.modal__actions,
+.modal__content {
+  padding: 0.5rem 2rem;
 }
 
 .modal__actions button {
-  margin: 0.5rem;
+  margin: 0 auto;
+  text-align: center;
 }
 
-@media only screen and (min-width: 768px) {
+.modal__actions button:first-child {
+  margin-bottom: 5px;
+}
+
+@media only screen and (min-width: 550px) {
+  .modal__actions {
+    flex-wrap: nowrap;
+  }
+
+  .modal__actions button {
+    margin-left: 5px;
+  }
+
+  .modal__actions button:first-child {
+    margin-left: 0px;
+    margin-right: 5px;
+    margin-bottom: 0px;
+  }
+
+  .modal form label:nth-child(3) input {
+    padding: 0.5rem 1rem;
+  }
+}
+
+@media only screen and (min-width: 800px) {
   .modal {
-    width: 30rem;
-    left: calc((100% - 30rem) / 2);
+    max-width: 600px;
+    top: 15%;
+    left: 15%;
+    height: 75vh;
+    left: 13%;
+  }
+}
+@media only screen and (min-width: 900px) {
+  .modal {
+    left: calc(15% + 15px);
+  }
+}
+
+@media only screen and (min-width: 1000px) {
+  .modal {
+    left: 20%;
+  }
+}
+
+@media only screen and (min-width: 1100px) {
+  .modal {
+    left: 25%;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .modal {
+    left: 27%;
+  }
+}
+
+@media only screen and (min-width: 1600px) {
+  .modal {
+    left: 32%;
+  }
+}
+
+@media only screen and (min-height: 550px) {
+  .modal {
+    border-top: 1rem solid white;
+    border-bottom: 1rem solid white;
+  }
+
+  .modal form {
+    flex-flow: column nowrap;
+  }
+
+  .modal form label:nth-child(1n) {
+    width: 100%;
+  }
+
+  .modal__actions,
+  .modal__content {
+    padding: 0 2rem 0.5rem;
   }
 }
