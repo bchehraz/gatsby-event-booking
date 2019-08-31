@@ -28,6 +28,8 @@ class Events extends React.Component {
       isLoading: false,
       selectedEvent: false,
       checked: false,
+      startDate: new Date(),
+      endDate: new Date(),
     }
 
     this.handleUpdate = this.handleUpdate.bind(this);
@@ -75,7 +77,8 @@ class Events extends React.Component {
     const data = await createEvent(token, newEvent);
 
     if (!data) {
-      return false;
+      this.setState({ isLoading: false });
+      return;
     }
 
     // Add new event to the events list and update state
@@ -121,6 +124,14 @@ class Events extends React.Component {
     });
   }
 
+  handleDateChange = date => {
+    console.log(date.toISOString());
+    this.setState({
+      endDate: date,
+      date: date.toISOString(),
+    });
+  };
+
   showDetailHandler = eventId => {
     this.setState(prevState => {
       const selectedEvent = prevState.events.find(e => e._id === eventId);
@@ -164,10 +175,13 @@ class Events extends React.Component {
             canConfirm
             onCancel={this.onCancelAction}
             onConfirm={this.onConfirmCreateEvent}
-            confirmText="Confirm"
+            confirmText="Publish Event"
           >
             <AddEventForm
               onChange={this.handleUpdate}
+              onDateChange={this.handleDateChange}
+              startDate={this.state.startDate}
+              endDate={this.state.endDate}
             />
           </Modal>
         }

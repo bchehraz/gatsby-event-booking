@@ -1,12 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import DatePicker from "react-datepicker";
 
+import "react-datepicker/dist/react-datepicker.css";
 import formStyles from '../../Form/form.module.css';
 
-const AddEventForm = ({ onChange }) => (
+const AddEventForm = ({ onChange, onDateChange, startDate, endDate }) => (
   <form className={formStyles.form}>
     <label className={formStyles[`form__label`]}>
-      Title
+      Event Name
       <input
         className={formStyles[`form__input`]}
         type="text"
@@ -15,7 +17,7 @@ const AddEventForm = ({ onChange }) => (
       />
     </label>
     <label className={formStyles[`form__label`]}>
-      Price
+      $ Cost
       <input
         className={formStyles[`form__input`]}
         type="number"
@@ -25,16 +27,17 @@ const AddEventForm = ({ onChange }) => (
       />
     </label>
     <label className={formStyles[`form__label`]}>
-      Date
-      <input
-        className={formStyles[`form__input`]}
-        type="datetime-local"
-        name="date"
-        onChange={onChange}
+      When is it?
+      <DatePicker
+        selected={endDate}
+        onChange={onDateChange}
+        showTimeSelect
+        dateFormat="MMMM d, yyyy h:mm aa"
+        minDate={startDate}
       />
     </label>
     <label className={formStyles[`form__label`]}>
-      Description
+      Tell us more about it
       <textarea
         className={formStyles[`form__textarea`]}
         rows={4}
@@ -47,6 +50,7 @@ const AddEventForm = ({ onChange }) => (
 
 AddEventForm.propTypes = {
   onChange: PropTypes.func.isRequired,
+  onDateChange: PropTypes.func.isRequired,
 }
 
 export default AddEventForm;
