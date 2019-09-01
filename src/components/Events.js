@@ -10,7 +10,6 @@ import CustomSwitch from './CustomSwitch/';
 import CreateEventButton from './Buttons/CreateEvent';
 import AddEventForm from './Form/AddEvent/';
 import { createEvent, fetchEvents, bookEvent } from '../utils/events.js';
-import { getToken } from '../utils/auth';
 
 class Events extends React.Component {
   static contextType = AuthContext;
@@ -66,7 +65,7 @@ class Events extends React.Component {
   onConfirmCreateEvent = async () => {
     this.setState({ creating: false, isLoading: true });
 
-    const token = this.context.token || getToken();
+    const { token } = this.context;
     if (!token) {
       return;
     }
