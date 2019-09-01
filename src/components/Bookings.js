@@ -7,6 +7,7 @@ import Spinner from './Spinner';
 import BookingList from './Bookings/BookingList';
 import BookingsChart from './Bookings/BookingsChart';
 import BookingsControls from './Bookings/BookingsControls';
+import { fetchBookings, cancelBooking } from '../utils/bookings.js';
 import { getToken } from '../utils/auth';
 
 const Header = styled.div`
@@ -27,95 +28,45 @@ class Bookings extends React.Component {
   }
 
   componentDidMount() {
-    this.fetchBookings();
+    this.getBookings();
   }
 
-  cancelBookingHandler = (bookingId) => {
+  cancelBookingHandler = async (bookingId) => {
     this.setState({ isLoading: true });
-    const requestBody = {
-      query: `
-        mutation CancelBooking($id: ID!) {
-          cancelBooking(bookingId: $id) {
-            _id
-            title
-          }
-        }
-      `,
-      variables: {
-        id: bookingId
-      }
-    };
 
     const { token } = this.context;
 
-    fetch('https://graphql-event-booking.herokuapp.com/graphql', {
-      method: 'POST',
-      body: JSON.stringify(requestBody),
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + token,
-      }
-    }).then(res => {
-      if(res.status !== 200 && res.status !== 201) {
-        throw new Error('Failed!');
-      }
-      return res.json();
-    }).then(resData => { // successful login or sign up
+    const canceled = await cancelBooking(token, bookingId);
 
-      this.setState(prevState => {
-        const updatedBookings = prevState.bookings.filter(booking => {
-          return booking._id !== bookingId;
-        });
-
-        return { bookings: updatedBookings, isLoading: false };
-      });
-    }).catch(err => {
-      console.log(err);
+    if (!canceled) {
       this.setState({ isLoading: false });
+      return;
+    }
+
+    this.setState(prevState => {
+      const updatedBookings = prevState.bookings.filter(booking => {
+        return booking._id !== bookingId;
+      });
+
+      return { bookings: updatedBookings, isLoading: false };
     });
   }
 
 
-  fetchBookings = () => {
+  getBookings = async () => {
     this.setState({ isLoading: true });
-    const requestBody = {
-      query: `
-        query {
-          bookings {
-            _id
-            createdAt
-            event {
-              title
-              date
-              price
-            }
-          }
-        }
-      `
-    };
+
 
     const token = this.context.token || getToken();
-    fetch('https://graphql-event-booking.herokuapp.com/graphql', {
-      method: 'POST',
-      body: JSON.stringify(requestBody),
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + token,
-      }
-    }).then(res => {
-      if(res.status !== 200 && res.status !== 201) {
-        throw new Error('Failed!');
-      }
-      return res.json();
-    }).then(resData => { // successful login or sign up
 
-      const { bookings } = resData.data;
-      this.setState({ bookings: bookings, isLoading: false });
-    }).catch(err => {
-      console.log(err);
+    const bookings = await fetchBookings(token);
+
+    if (!bookings) {
       this.setState({ isLoading: false });
-    });
+      return;
+    }
 
+    this.setState({ bookings: bookings, isLoading: false });
   }
 
   onChangeView = () => {
