@@ -1,4 +1,4 @@
-import { isBrowser } from './helpers';
+import { isBrowser, isResponseOk } from './helpers';
 
 const getUser = () =>
   window.localStorage.user
@@ -40,4 +40,96 @@ export const logout = callback => {
 
   setUser({});
   callback();
+}
+
+const callAuthAPI = async (requestBody) => {
+  return await fetch('https://graphql-event-booking.herokuapp.com/graphql', {
+    method: 'POST',
+    body: JSON.stringify(requestBody),
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  });
+}
+
+export const login = async (email, password) => {
+  if (!isBrowser) return false;
+
+  const requestBody = {
+    query: `
+      query Login($email: String!, $password: String!) {
+        login(
+          email: $email,
+          password: $password
+        ) {
+          userId
+          token
+          tokenExpiration
+          email
+        }
+      }
+    `,
+    variables: {
+      email, password
+    }
+  };
+
+  try {
+    const response = await callAuthAPI(requestBody);
+
+    if (!isResponseOk(response)) {
+      throw new Error("Login failed!");
+    }
+
+    const { data } = await response.json();
+
+    if (!data.login) {
+      return false;
+    }
+
+    return data.login;
+  } catch (e) {
+    console.log(e);
+    return false;
+  }
+}
+
+export const createNewAccount = async (email, password) => {
+  const requestBody = {
+    query: `
+      mutation SignUp($email: String!, $password: String!) {
+        createUser(userInput: {
+          email: $email,
+          password: $password
+        }) {
+          userId
+          email
+          token
+          tokenExpiration
+        }
+      }
+    `,
+    variables: {
+      email, password
+    }
+  };
+
+  try {
+    const response = await callAuthAPI(requestBody);
+
+    if (!isResponseOk(response)) {
+      throw new Error("Sign up failed!");
+    }
+
+    const { data } = await response.json();
+
+    if (!data.createUser) {
+      return false;
+    }
+
+    return data.createUser;
+  } catch (e) {
+    console.log(e);
+    return false;
+  }
 }

@@ -6,6 +6,7 @@ import Form from './Form';
 import View from './View';
 import AuthContext from '../context/auth-context';
 import delay from '../utils/delay';
+import { login, createNewAccount } from '../utils/auth';
 
 const ERRORS = {
   loginFail: "Email or password is incorrect",
@@ -55,7 +56,7 @@ class Login extends React.Component {
     return null;
   }
 
-  handleSubmit(event) {
+  async handleSubmit(event) {
     event.preventDefault();
     const { email, password, signUp } = this.state;
 
@@ -68,74 +69,29 @@ class Login extends React.Component {
       return false;
     }
 
-    //Make text fields non-selectable while request is being sent
-    // also start loading
+    // Selectable: false will make text input non-selectable
     this.setState({ selectable: false, loading: true });
 
-    let requestBody = {
-      query: `
-        query Login($email: String!, $password: String!) {
-          login(
-            email: $email,
-            password: $password
-          ) {
-            userId
-            token
-            tokenExpiration
-            email
-          }
-        }
-      `
-    };
-
+    let authData;
     if (signUp) {
-      requestBody = {
-        query: `
-          mutation SignUp($email: String!, $password: String!) {
-            createUser(userInput: {
-              email: $email,
-              password: $password
-            }) {
-              userId
-              email
-              token
-              tokenExpiration
-            }
-          }
-        `
-      };
+      authData = await createNewAccount(email, password);
+    } else {
+      authData = await login(email, password);
     }
-    requestBody.variables = { email, password };
 
-    const action = (signUp) ? "Sign Up" : "Log In";
-    fetch('https://graphql-event-booking.herokuapp.com/graphql', {
-      method: 'POST',
-      body: JSON.stringify(requestBody),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }).then(res => {
-      if(res.status !== 200 && res.status !== 201) {
-        this.setState({ error: (signUp) ? ERRORS.signUpFail : ERRORS.loginFail });
-        this.setState({ selectable: true, loading: false });
-        throw new Error("Server Output >> " + action + " Request Failed");
-      }
-      return res.json();
-    }).then(resData => { // successful login or sign up
-      if (resData.data.login) {
-        const { token, userId, tokenExpiration, email } = resData.data.login;
-        this.setState({ selectable: true, loading: false, success: true });
-        delay(() => this.context.login(token, userId, tokenExpiration, email), 1000);
-      } else if (resData.data.createUser) {
-        const { token, userId, tokenExpiration, email } = resData.data.createUser;
-        this.setState({ selectable: true, loading: false, success: true });
-        delay(() => this.context.login(token, userId, tokenExpiration, email), 1000);
-      }
-    }).catch(err => {
-      console.log(err);
-    });
+    if (!authData) {
+      this.setState({
+        selectable: true,
+        loading: false,
+        error: (signUp) ? ERRORS.signUpFail : ERRORS.loginFail,
+      });
+      return;
+    }
 
-    return true;
+    const { token, userId, tokenExpiration } = authData;
+
+    this.setState({ selectable: true, loading: false, success: true });
+    delay(() => this.context.login(token, userId, tokenExpiration, email), 1000);
   }
 
   switchForm(event) {
