@@ -100,7 +100,7 @@ class Events extends React.Component {
       return { events: updatedEvents };
     });
 
-    this.setState({ isLoading: false });
+    this.setState({ isLoading: false, endDate: new Date() });
   }
 
   getEvents = async (filterOnlyFree = false) => {
