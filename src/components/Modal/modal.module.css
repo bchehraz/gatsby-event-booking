@@ -2,7 +2,7 @@
 .modal {
   width: 90%;
   background: #ddd;
-  position: absolute;
+  position: fixed;
   top: 5%;
   left: 5%;
   z-index: 100;
@@ -93,7 +93,6 @@
   .modal {
     max-width: 600px;
     top: 15%;
-    left: 15%;
     height: 75vh;
     left: 13%;
   }
@@ -145,5 +144,14 @@
   .modal__actions,
   .modal__content {
     padding: 0 2rem 0.5rem;
+  }
+}
+
+@media only screen and (max-height: 500px) {
+  .modal {
+    height: 100vh;
+    top: 0;
+    margin: 0;
+    padding: 0;
   }
 }

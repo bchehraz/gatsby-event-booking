@@ -4,7 +4,6 @@ import { navigate } from 'gatsby';
 
 import Form from './Form';
 import View from './View';
-import Spinner from './Spinner';
 import AuthContext from '../context/auth-context';
 import delay from '../utils/delay';
 
@@ -109,7 +108,6 @@ class Login extends React.Component {
     requestBody.variables = { email, password };
 
     const action = (signUp) ? "Sign Up" : "Log In";
-    console.log("Preparing " + action + " Server Request >> Request Body Complete.");
     fetch('https://graphql-event-booking.herokuapp.com/graphql', {
       method: 'POST',
       body: JSON.stringify(requestBody),
@@ -124,10 +122,6 @@ class Login extends React.Component {
       }
       return res.json();
     }).then(resData => { // successful login or sign up
-      console.log("Server Output >> " + action + " Successful");
-      console.log("Server Output >> ");
-      console.log(resData.data);
-
       if (resData.data.login) {
         const { token, userId, tokenExpiration, email } = resData.data.login;
         this.setState({ selectable: true, loading: false, success: true });

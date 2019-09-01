@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import View from '../View';
 import formStyles from '../Form/form.module.css';
 import styles from './modal.module.css';
 

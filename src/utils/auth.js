@@ -6,6 +6,7 @@ const getUser = () =>
     : {};
 
 const setUser = user => {
+  if (!isBrowser) return;
   window.localStorage.user = JSON.stringify(user);
 }
 
@@ -24,7 +25,6 @@ export const isLoggedIn = () => {
 }
 
 export const onLoginSuccess = (token, userId, tokenExpiration, email) => {
-  console.log(`Login Successful`);
   return setUser({
     token,
     userId,
@@ -38,7 +38,6 @@ export const getCurrentUser = () => isBrowser && getUser();
 export const logout = callback => {
   if (!isBrowser) return;
 
-  console.log(`Ensuring the \`user\` property exists.`);
   setUser({});
   callback();
 }

@@ -51,6 +51,8 @@ const AddEventForm = ({ onChange, onDateChange, startDate, endDate }) => (
 AddEventForm.propTypes = {
   onChange: PropTypes.func.isRequired,
   onDateChange: PropTypes.func.isRequired,
+  startDate: PropTypes.object.isRequired,
+  endDate: PropTypes.object.isRequired,
 }
 
 export default AddEventForm;

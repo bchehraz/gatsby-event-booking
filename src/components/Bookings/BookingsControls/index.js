@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { FaListUl, FaChartBar } from 'react-icons/fa';
 
@@ -44,6 +45,11 @@ const BookingsControls = ({ graphView, onChangeView }) => {
       <div style={{ margin: '0 auto' }}><h4>{ButtonText}</h4></div>
     </GraphButton>
   );
+}
+
+BookingsControls.propTypes = {
+  graphView: PropTypes.bool.isRequired,
+  onChangeView: PropTypes.func.isRequired,
 }
 
 export default BookingsControls;

@@ -13,6 +13,8 @@ const isValidEvent = (event) => {
 }
 
 export const createEvent = async (token, event) => {
+  if (!isBrowser) return false;
+  
   if (!isValidEvent(event)) {
     return false;
   }
@@ -114,6 +116,8 @@ export const fetchEvents = async (filterOnlyFree = false) => {
 }
 
 export const bookEvent = async (token, eventId) => {
+  if (!isBrowser) return false;
+
   const requestBody = {
     query: `
       mutation BookEvent($eventId: ID!) {

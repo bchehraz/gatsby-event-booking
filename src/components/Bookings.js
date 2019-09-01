@@ -45,7 +45,6 @@ class Bookings extends React.Component {
         id: bookingId
       }
     };
-    console.log("Preparing Server Request >> Request Body Complete.");
 
     const { token } = this.context;
 
@@ -62,9 +61,6 @@ class Bookings extends React.Component {
       }
       return res.json();
     }).then(resData => { // successful login or sign up
-      console.log("Server Output >> Cancel Booking Mutation Successful");
-      console.log("Server Output >> ");
-      console.log(resData.data);
 
       this.setState(prevState => {
         const updatedBookings = prevState.bookings.filter(booking => {
@@ -97,13 +93,8 @@ class Bookings extends React.Component {
         }
       `
     };
-    console.log("Preparing Server Request >> Request Body Complete.");
 
-    //const { token } = this.context;
     const token = this.context.token || getToken();
-    /*console.log(getUser());
-    console.log(this.context || getUser());
-    console.log(token);*/
     fetch('https://graphql-event-booking.herokuapp.com/graphql', {
       method: 'POST',
       body: JSON.stringify(requestBody),
@@ -117,9 +108,6 @@ class Bookings extends React.Component {
       }
       return res.json();
     }).then(resData => { // successful login or sign up
-      console.log("Server Output >> Bookings Query Successful");
-      console.log("Server Output >> ");
-      console.log(resData.data);
 
       const { bookings } = resData.data;
       this.setState({ bookings: bookings, isLoading: false });
