@@ -31,7 +31,7 @@ const Spinner = (props) => (
 );
 
 Spinner.propTypes = {
-  style: PropTypes.func,
+  style: PropTypes.object,
 }
 
 export default Spinner;
