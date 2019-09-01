@@ -1,8 +1,4 @@
-const isBrowser = typeof window !== `undefined`;
-
-const isResponseOk = (res) => {
-  return !(res.status !== 200 && res.status !== 201);
-}
+import { isResponseOk, isBrowser } from './helpers';
 
 const isValidEvent = (event) => {
   const { title, description, price, date } = event;
@@ -14,7 +10,7 @@ const isValidEvent = (event) => {
 
 export const createEvent = async (token, event) => {
   if (!isBrowser) return false;
-  
+
   if (!isValidEvent(event)) {
     return false;
   }

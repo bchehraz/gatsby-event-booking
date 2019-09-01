@@ -1,4 +1,4 @@
-const isBrowser = typeof window !== `undefined`;
+import { isBrowser } from './helpers';
 
 const getUser = () =>
   window.localStorage.user
