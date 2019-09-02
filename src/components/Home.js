@@ -14,7 +14,8 @@ const Home = () => (
     <h4>By Babak Chehraz</h4>
     <br />
     <p>
-      [<a target="_blank" rel="noopener noreferrer" href="https://www.github.com/bchehraz/gatsby-event-booking">See on Github</a>]
+      [<a target="_blank" rel="noopener noreferrer" href="https://www.github.com/bchehraz/gatsby-event-booking">View Front-end on Github</a>]
+     [<a target="_blank" rel="noopener noreferrer" href="https://www.github.com/bchehraz/graphql-event-booking">View Back-end on Github</a>]
     </p>
 
 
