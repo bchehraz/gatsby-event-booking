@@ -33,8 +33,8 @@ export const fetchBookings = async (token) => {
 
     const { data } = await response.json();
     const { bookings } = data;
-    
-    if (bookings.length === 0) {
+
+    if (!bookings) {
       return false;
     }
 
