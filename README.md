@@ -37,15 +37,11 @@
 <h3>Acknowledgements</h3>
 <ul>
   <li>
-  Client is based on the Simple Auth App which demonstrates client side routing using Gatsby [<a target="blank" href="https://github.com/gatsbyjs/gatsby/blob/master/examples/simple-auth/README.md">
-    Github Source
-  </a>]
+  Client is based on the Simple Auth App which demonstrates client side routing using Gatsby [<a target="blank" href="https://github.com/gatsbyjs/gatsby/blob/master/examples/simple-auth/README.md">Github Source</a>]
   </li>
 </ul>
 <ul>
   <li>
-  Core server functionality based upon a tutorial by Academind [<a target="blank" href="https://www.youtube.com/channel/UCSJbGtTlrDami-tDGPUV9-w">
-    Link to YouTube Channel
-  </a>]
+  Core server functionality based upon a tutorial by Academind [<a target="blank" href="https://www.youtube.com/channel/UCSJbGtTlrDami-tDGPUV9-w">Link to YouTube Channel</a>]
   </li>
 </ul>
