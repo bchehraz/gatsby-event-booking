@@ -51,18 +51,16 @@ const Home = () => (
     <ul>
       <li>
       Client is based on the Simple Auth App which demonstrates client side routing using Gatsby
-        <br />
         [<a target="_blank" rel="noopener noreferrer" href="https://github.com/gatsbyjs/gatsby/blob/master/examples/simple-auth/README.md">
-          {`Github Source`}
+          Github Source
         </a>]
       </li>
     </ul>
     <ul>
       <li>
       Core server functionality based upon a tutorial by Academind
-      <br />
       [<a target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/channel/UCSJbGtTlrDami-tDGPUV9-w">
-        {`Link to YouTube page`}
+        Link to YouTube Channel
       </a>]
       </li>
     </ul>
